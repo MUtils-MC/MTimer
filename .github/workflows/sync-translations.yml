@@ -11,11 +11,14 @@ jobs:
 
     steps:
       - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync translations
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
         with:
-          source_file: 'data/language/en.yml'
+          source_file: '${{ github.workspace }}/data/language/en.yml'
           destination_repo: 'MUtils-MC/Translations'
           destination_folder: 'mtimer'
           user_email: 'miraculixxyt@gmail.com'
