@@ -16,8 +16,8 @@ jobs:
       - name: Copy translations to Translations repository
         run: |
           mkdir Translations
-          cd Translations
           git clone https://github.com/MUtils-MC/Translations.git
+          cd Translations
           ls
           cp ${{ github.workspace }}/data/language/en.yml ./MTimer/en.yml
           git add .
