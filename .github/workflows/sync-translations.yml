@@ -1,0 +1,22 @@
+name: Sync Translations
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy translations to Translations repository
+        run: |
+          cp en.yml ../Translations/en.yml
+          cd ../Translations
+          git add .
+          git commit -m "Update new MTimer translation keys"
+          git push
