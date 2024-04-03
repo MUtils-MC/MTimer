@@ -15,8 +15,10 @@ jobs:
 
       - name: Copy translations to Translations repository
         run: |
-          cp en.yml ../Translations/en.yml
-          cd ../Translations
+          mkdir Translations
+          cd Translations
+          git clone https://github.com/MUtils-MC/Translations.git
+          cp /data/language/en.yml ./MTimer/en.yml
           git add .
           git commit -m "Update new MTimer translation keys"
           git push
