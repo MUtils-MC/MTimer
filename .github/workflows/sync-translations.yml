@@ -16,7 +16,7 @@ jobs:
       - name: Copy translations to Translations repository
         run: |
           mkdir Translations
-          git clone https://github.com/MUtils-MC/Translations.git
+          git clone git@github.com:MUtils-MC/Translations.git
           cd Translations
           git config --global user.name "Miraculixx-Bot"
           git config --global user.email "miraculixxt@users.noreply.github.com"
