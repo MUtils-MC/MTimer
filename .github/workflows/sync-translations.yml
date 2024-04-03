@@ -18,7 +18,7 @@ jobs:
           mkdir Translations
           cd Translations
           git clone https://github.com/MUtils-MC/Translations.git
-          cp /data/language/en.yml ./MTimer/en.yml
+          cp ${{ github.workspace }}/data/language/en.yml ./MTimer/en.yml
           git add .
           git commit -m "Update new MTimer translation keys"
           git push
