@@ -16,7 +16,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
         with:
           source_file: 'data/language/en.yml'
-          destination_repo: 'MUtils/Translations'
+          destination_repo: 'MUtils-MC/Translations'
           destination_folder: 'mtimer'
           user_email: 'miraculixxyt@gmail.com'
           user_name: 'MiraculixxT'
