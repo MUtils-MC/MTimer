@@ -19,7 +19,7 @@ jobs:
           git clone https://github.com/MUtils-MC/Translations.git
           cd Translations
           ls
-          cp ${{ github.workspace }}/data/language/en.yml ./MTimer/en.yml
+          cp ${{ github.workspace }}/data/language/en.yml ./mtimer/en.yml
           git add .
           git commit -m "Update new MTimer translation keys"
           git push
