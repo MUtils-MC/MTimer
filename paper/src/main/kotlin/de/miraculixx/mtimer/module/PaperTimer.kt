@@ -1,13 +1,14 @@
 package de.miraculixx.mtimer.module
 
+import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.kpaper.extensions.onlinePlayers
 import de.miraculixx.kpaper.runnables.task
+import de.miraculixx.mcommons.text.msg
 import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.BOSSBAR
 import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.HOTBAR
 import de.miraculixx.mtimer.vanilla.module.Timer
 import de.miraculixx.mtimer.vanilla.module.TimerManager
 import de.miraculixx.mtimer.vanilla.module.settings
-import de.miraculixx.mvanilla.messages.msg
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.title.Title
@@ -74,13 +75,16 @@ class PaperTimer(
             if (!running) return@task
             if (time < 0.seconds) {
                 running = false
-                val title = Title.title(
-                    msg("event.timeout.head"), msg("event.timeout.sub"),
-                    Title.Times.times(java.time.Duration.ofMillis(300), java.time.Duration.ofMillis(5000), java.time.Duration.ofMillis(1000))
-                ) // 0,3s 5s 1s
                 target.forEach { p ->
-                    p?.playSound(Sound.sound(Key.key(design.stopSound.key), Sound.Source.MASTER, 1f, design.stopSound.pitch))
-                    p?.showTitle(title)
+                    if (p == null) return@forEach
+                    p.playSound(Sound.sound(Key.key(design.stopSound.key), Sound.Source.MASTER, 1f, design.stopSound.pitch))
+                    val locale = p.language()
+                    p.showTitle(
+                        Title.title(
+                            msg("event.timeout.head", locale = locale), msg("event.timeout.sub", locale = locale),
+                            Title.Times.times(java.time.Duration.ofMillis(300), java.time.Duration.ofMillis(5000), java.time.Duration.ofMillis(1000))
+                        )
+                    ) // 0,3s 5s 1s
                 }
                 time = ZERO
                 return@task

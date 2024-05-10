@@ -1,8 +1,8 @@
 package de.miraculixx.mtimer.vanilla.data
 
-import de.miraculixx.mvanilla.messages.cHighlight
-import de.miraculixx.mvanilla.messages.cmp
-import de.miraculixx.mvanilla.messages.plus
+import de.miraculixx.mcommons.text.cHighlight
+import de.miraculixx.mcommons.text.cmp
+import de.miraculixx.mcommons.text.plus
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 

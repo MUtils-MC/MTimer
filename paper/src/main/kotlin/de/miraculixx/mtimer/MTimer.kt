@@ -4,11 +4,16 @@ import de.miraculixx.challenge.api.MChallengeAPI
 import de.miraculixx.challenge.api.modules.challenges.ChallengeStatus
 import de.miraculixx.kpaper.extensions.console
 import de.miraculixx.kpaper.extensions.pluginManager
-import de.miraculixx.kpaper.main.KSpigot
+import de.miraculixx.kpaper.main.KPaper
 import de.miraculixx.kpaper.runnables.sync
 import de.miraculixx.mbridge.MUtilsBridge
-import de.miraculixx.mbridge.MUtilsModule
-import de.miraculixx.mbridge.MUtilsPlatform
+import de.miraculixx.mbridge.data.MUtilsModule
+import de.miraculixx.mbridge.data.MUtilsPlatform
+import de.miraculixx.mcommons.debug
+import de.miraculixx.mcommons.extensions.loadConfig
+import de.miraculixx.mcommons.majorVersion
+import de.miraculixx.mcommons.minorVersion
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.command.HelperCommand
 import de.miraculixx.mtimer.command.TimerCommand
 import de.miraculixx.mtimer.module.TimerAPI
@@ -17,24 +22,24 @@ import de.miraculixx.mtimer.vanilla.data.Settings
 import de.miraculixx.mtimer.vanilla.module.TimerManager
 import de.miraculixx.mtimer.vanilla.module.rules
 import de.miraculixx.mtimer.vanilla.module.settings
-import de.miraculixx.mvanilla.extensions.readJsonString
-import de.miraculixx.mvanilla.messages.*
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import java.io.File
+import java.util.*
 
-class MTimer : KSpigot() {
+class MTimer : KPaper() {
     companion object {
-        lateinit var INSTANCE: KSpigot
+        lateinit var INSTANCE: KPaper
         val configFolder = File("plugins/MUtils/Timer")
         lateinit var localization: Localization
         lateinit var bridgeAPI: MUtilsBridge
         var challengeAPI: MChallengeAPI? = null
     }
+
+    private val configFile = File("${configFolder.path}/settings.json")
 
     override fun load() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
@@ -51,12 +56,12 @@ class MTimer : KSpigot() {
         minorVersion = versionSplit.getOrNull(2)?.toIntOrNull() ?: 0
 
         if (!configFolder.exists()) configFolder.mkdirs()
-        settings = json.decodeFromString<Settings>(File("${configFolder.path}/settings.json").readJsonString(true))
-        val languages = listOf("en_US", "de_DE", "es_ES").map { it to javaClass.getResourceAsStream("/language/$it.yml") }
-        localization = Localization(File("${configFolder.path}/language"), settings.language, languages, timerPrefix)
+        settings = configFile.loadConfig(Settings())
+        val languages = listOf(Locale.ENGLISH, Locale.GERMAN, Locale.forLanguageTag("es")).map { it to javaClass.getResourceAsStream("/language/mtimer/$it.yml") }
+        localization = Localization(File("${configFolder.path}/language"), settings.language, languages)
 
         // Connect Bridge
-        bridgeAPI = MUtilsBridge(MUtilsPlatform.PAPER, MUtilsModule.TIMER, server.version, server.port)
+        bridgeAPI = MUtilsBridge(MUtilsPlatform.PAPER, MUtilsModule.TIMER, server.version, server.port, debug)
         CoroutineScope(Dispatchers.Default).launch {
             val version = bridgeAPI.versionCheck(description.version.toInt(), File("plugins/update"))
             if (!version) return@launch

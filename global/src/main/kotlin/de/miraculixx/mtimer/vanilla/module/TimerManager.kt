@@ -1,8 +1,12 @@
 package de.miraculixx.mtimer.vanilla.module
 
+import de.miraculixx.mcommons.debug
+import de.miraculixx.mcommons.extensions.saveConfig
+import de.miraculixx.mcommons.text.cmp
+import de.miraculixx.mcommons.text.consoleAudience
+import de.miraculixx.mcommons.text.plus
+import de.miraculixx.mcommons.text.prefix
 import de.miraculixx.mtimer.vanilla.data.*
-import de.miraculixx.mvanilla.messages.*
-import kotlinx.serialization.encodeToString
 import java.io.File
 import java.util.*
 
@@ -55,15 +59,15 @@ object TimerManager {
         if (debug) consoleAudience.sendMessage(prefix + cmp("Save all data to disk..."))
         val designFolder = File("${folder.path}/designs")
         if (!designFolder.exists()) designFolder.mkdirs()
-        val skipIDs = TimerPresets.values().map { it.uuid }
+        val skipIDs = TimerPresets.entries.map { it.uuid }
         designs.forEach { (id, data) ->
             if (skipIDs.contains(id)) return@forEach
-            File("${designFolder.path}/$id.json").writeText(json.encodeToString(data)) // Obj
+            File("${designFolder.path}/$id.json").saveConfig(data)
         }
 
-        File("${folder.path}/global-timer.json").writeText(json.encodeToString(toDataObj(globalTimer))) // Obj
-        File("${folder.path}/personal-timers.json").writeText(json.encodeToString(personalTimer.map { toDataObj(it.value) })) // List
-        File("${folder.path}/rules.json").writeText(json.encodeToString(rules))
-        File("${folder.path}/goals.json").writeText(json.encodeToString(goals))
+        File("${folder.path}/global-timer.json").saveConfig(toDataObj(globalTimer))
+        File("${folder.path}/personal-timers.json").saveConfig(personalTimer.map { toDataObj(it.value) })
+        File("${folder.path}/rules.json").saveConfig(rules)
+        File("${folder.path}/goals.json").saveConfig(goals)
     }
 }

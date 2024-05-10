@@ -12,7 +12,6 @@ dependencies {
     implementation(project(":global"))
 
     implementation("de.miraculixx:challenge-api:1.5.0")
-    implementation("de.miraculixx:mbridge:1.0.0")
 }
 
 group = "de.miraculixx.timer"

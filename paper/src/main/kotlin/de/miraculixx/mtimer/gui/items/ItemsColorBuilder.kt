@@ -4,10 +4,13 @@ import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
+import de.miraculixx.mcommons.statics.KHeads
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mcore.gui.items.ItemProvider
 import de.miraculixx.mcore.gui.items.skullTexture
 import de.miraculixx.mtimer.vanilla.data.ColorBuilder
 import de.miraculixx.mtimer.vanilla.data.ColorType
+import de.miraculixx.mtimer.vanilla.utils.*
 import de.miraculixx.mvanilla.gui.Head64
 import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.Component
@@ -18,8 +21,9 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
+import java.util.Locale
 
-class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
+class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Locale) : ItemProvider {
     private val msgTypeName = cmp(msgString("items.color.type.n"), cHighlight, bold = true)
     private val msgTypeLore = msgList("items.color.type.l", inline = "<grey>")
     private val msgSettings = cmp("∙ ") + cmp("Settings", cHighlight, underlined = true)
@@ -31,7 +35,7 @@ class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
             put(11, itemStack(Material.MAGMA_CREAM) {
                 meta {
                     name = msgTypeName
-                    lore(msgTypeLore + buildLore(currentColor) + (msgClick + cmp("Switch")))
+                    lore(msgTypeLore + buildLore(currentColor) + (locale.msgClick() + cmp("Switch")))
                     customModel = 1
                 }
             })
@@ -42,7 +46,7 @@ class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
                     put(14, itemStack(Material.LEATHER_CHESTPLATE) {
                         meta<LeatherArmorMeta> {
                             name = cmp(msgString("items.color.vanilla.n"), cHighlight)
-                            lore(buildLore(currentColor) + (msgClick + cmp("Switch")))
+                            lore(buildLore(currentColor) + (locale.msgClick() + cmp("Switch")))
                             customModel = 2
                             setColor(Color.fromRGB(currentColor.value()))
                             addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
@@ -51,7 +55,7 @@ class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
                 }
 
                 ColorType.RGB -> {
-                    val clickLore = listOf(msgClickLeft + cmp("+1"), msgClickRight + cmp("-1"), msgShiftClickLeft + cmp("+10"), msgShiftClickRight + cmp("-10"))
+                    val clickLore = listOf(locale.msgClickLeft() + cmp("+1"), locale.msgClickRight() + cmp("-1"), locale.msgShiftClickLeft() + cmp("+10"), locale.msgShiftClickRight() + cmp("-10"))
                     put(13, itemStack(Material.RED_DYE) {
                         meta {
                             name = cmp(msgString("items.color.red.n"), cHighlight)
@@ -81,7 +85,7 @@ class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
                     put(14, itemStack(Material.LEATHER_CHESTPLATE) {
                         meta<LeatherArmorMeta> {
                             name = cmp(msgString("items.color.hex.n"), cHighlight)
-                            lore(buildLore(currentColor) + (msgClick + cmp("Enter")))
+                            lore(buildLore(currentColor) + (locale.msgClick() + cmp("Enter")))
                             customModel = 6
                             setColor(Color.fromRGB(currentColor.value()))
                             addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE)
@@ -94,7 +98,7 @@ class ItemsColorBuilder(private val data: ColorBuilder) : ItemProvider {
                     name = cmp(msgString("event.finish"), cHighlight)
                     customModel = 10
                 }
-                itemMeta = (itemMeta as SkullMeta).skullTexture(Head64.CHECKMARK_GREEN.value)
+                itemMeta = (itemMeta as SkullMeta).skullTexture(KHeads.CHECKMARK_GREEN)
             })
         }
     }

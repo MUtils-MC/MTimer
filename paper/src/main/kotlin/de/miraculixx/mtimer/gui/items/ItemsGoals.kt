@@ -4,15 +4,18 @@ import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
+import de.miraculixx.mcommons.majorVersion
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mcore.gui.items.ItemProvider
 import de.miraculixx.mtimer.vanilla.module.goals
 import de.miraculixx.mvanilla.messages.*
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.Locale
 
-class ItemsGoals : ItemProvider {
+class ItemsGoals(private val locale: Locale) : ItemProvider {
     private val infoLore = listOf(emptyComponent(), cmp("∙ ") + cmp("Info", cHighlight, underlined = true))
-    private val clickLore = listOf(emptyComponent(), msgClick + cmp("Toggle Goal"))
+    private val clickLore = listOf(emptyComponent(), locale.msgClick() + cmp("Toggle Goal"))
 
     override fun getBooleanMap(from: Int, to: Int): Map<ItemStack, Boolean> {
         return buildMap {
@@ -28,32 +31,32 @@ class ItemsGoals : ItemProvider {
             0 -> itemStack(Material.DRAGON_EGG) {
                 meta {
                     customModel = 1
-                    name = cmp(msgString("items.dragonDeath.n"), cHighlight)
-                    lore(infoLore + msgList("items.dragonDeath.l") + clickLore)
+                    name = cmp(locale.msgString("items.dragonDeath.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.dragonDeath.l") + clickLore)
                 }
             } to goals.enderDragon
 
             1 -> itemStack(Material.WITHER_ROSE) {
                 meta {
                     customModel = 2
-                    name = cmp(msgString("items.witherDeath.n"), cHighlight)
-                    lore(infoLore + msgList("items.witherDeath.l") + clickLore)
+                    name = cmp(locale.msgString("items.witherDeath.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.witherDeath.l") + clickLore)
                 }
             } to goals.wither
 
             2 -> itemStack(Material.PRISMARINE_CRYSTALS) {
                 meta {
                     customModel = 3
-                    name = cmp(msgString("items.elderDeath.n"), cHighlight)
-                    lore(infoLore + msgList("items.elderDeath.l") + clickLore)
+                    name = cmp(locale.msgString("items.elderDeath.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.elderDeath.l") + clickLore)
                 }
             } to goals.elderGuardian
 
             3 -> itemStack(if (majorVersion >= 19) Material.ECHO_SHARD else Material.WARPED_HYPHAE) {
                 meta {
                     customModel = 4
-                    name = cmp(msgString("items.wardenDeath.n"), cHighlight)
-                    lore(infoLore + msgList("items.wardenDeath.l") + clickLore)
+                    name = cmp(locale.msgString("items.wardenDeath.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.wardenDeath.l") + clickLore)
                 }
             } to goals.warden
 

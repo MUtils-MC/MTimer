@@ -1,10 +1,12 @@
 package de.miraculixx.mtimer.vanilla.data
 
+import de.miraculixx.mcommons.serializer.LocaleSerializer
 import kotlinx.serialization.Serializable
+import java.util.Locale
 
 @Serializable
 data class Settings(
-    var language: String = "en_US",
+    var language: @Serializable(with = LocaleSerializer::class) Locale = Locale.ENGLISH,
     var displaySlot: TimerDisplaySlot = TimerDisplaySlot.HOTBAR
 )
 

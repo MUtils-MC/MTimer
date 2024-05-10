@@ -4,8 +4,13 @@ import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
+import de.miraculixx.mcommons.namespace
+import de.miraculixx.mcommons.text.cHighlight
+import de.miraculixx.mcommons.text.cmp
+import de.miraculixx.mcommons.text.emptyComponent
+import de.miraculixx.mcommons.text.plus
 import de.miraculixx.mtimer.module.PaperTimer
+import de.miraculixx.mtimer.vanilla.data.TimerDesign
 import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material

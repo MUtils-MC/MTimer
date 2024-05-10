@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'data/language/**'
 
 jobs:
   sync:
@@ -18,7 +20,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.ACCESS_TOKEN }}
         with:
-          source_file: '${{ github.workspace }}/data/language/en.yml'
+          source_file: '${{ github.workspace }}/data/language/mtimer/en.yml'
           destination_repo: 'MUtils-MC/Translations'
           destination_folder: 'mtimer'
           user_email: 'miraculixxyt@gmail.com'

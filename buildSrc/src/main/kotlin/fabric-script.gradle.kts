@@ -1,3 +1,4 @@
+
 plugins {
     id("fabric-loom")
     id("io.github.dexman545.outlet")
@@ -5,6 +6,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://maven.shedaniel.me/")
     maven("https://maven.terraformersmc.com/releases/")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
@@ -73,6 +75,9 @@ dependencies {
         transitiveInclude(implementation("org.yaml", "snakeyaml", "2.2"))
     }
 
+    implementation(include("de.miraculixx:mc-commons:1.0.1")!!)
+    implementation(include("de.miraculixx:timer-api:1.1.3")!!)
+    implementation(include("de.miraculixx:mbridge:1.0.0")!!)
 
     // Add all non-mod dependencies to the jar
     transitiveInclude.resolvedConfiguration.resolvedArtifacts.forEach {

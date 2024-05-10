@@ -1,10 +1,8 @@
 package de.miraculixx.mtimer.vanilla.data
 
-import de.miraculixx.mvanilla.data.UUIDSerializer
+import de.miraculixx.mcommons.serializer.UUIDSerializer
 import kotlinx.serialization.Serializable
 import net.kyori.adventure.bossbar.BossBar
-import net.kyori.adventure.key.Key
-import net.kyori.adventure.sound.Sound
 import java.util.*
 import kotlin.time.Duration
 
