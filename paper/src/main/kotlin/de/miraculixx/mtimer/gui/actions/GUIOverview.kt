@@ -1,28 +1,26 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.extensions.bukkit.language
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
+import de.miraculixx.mcommons.extensions.click
+import de.miraculixx.mcommons.extensions.soundDisable
+import de.miraculixx.mcommons.extensions.soundEnable
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesigns
 import de.miraculixx.mtimer.gui.items.ItemsGoals
 import de.miraculixx.mtimer.gui.items.ItemsRules
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
 import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mvanilla.extensions.click
-import de.miraculixx.mvanilla.extensions.soundDisable
-import de.miraculixx.mvanilla.extensions.soundEnable
-import de.miraculixx.mvanilla.messages.emptyComponent
-import de.miraculixx.mvanilla.messages.msg
-import de.miraculixx.mvanilla.messages.plus
-import de.miraculixx.mvanilla.messages.prefix
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class GUIOverview(private val isPersonal: Boolean) : GUIEvent {
-    private val noPersonalTimer = prefix + msg("event.noPersonalTimer")
+    private val noPersonalTimer = prefix + defaultLocale.msg("event.noPersonalTimer")
 
     override val run: (InventoryClickEvent, CustomInventory) -> Unit = event@{ it: InventoryClickEvent, inv: CustomInventory ->
         it.isCancelled = true
@@ -38,7 +36,7 @@ class GUIOverview(private val isPersonal: Boolean) : GUIEvent {
                 player.closeInventory()
                 val guiID = if (isPersonal) player.uniqueId.toString() else "TIMER_GLOBAL_DESIGNS"
                 player.click()
-                TimerGUI.DESIGN.buildInventory(player, guiID, ItemsDesigns(timer), GUIDesigns(isPersonal, timer))
+                TimerGUI.DESIGN.buildInventory(player, guiID, ItemsDesigns(timer, player.language()), GUIDesigns(isPersonal, timer))
             }
 
             6 -> if (timer.countUp) {
@@ -61,14 +59,14 @@ class GUIOverview(private val isPersonal: Boolean) : GUIEvent {
             8 -> {
                 player.closeInventory()
                 player.click()
-                TimerGUI.RULES.buildInventory(player, player.uniqueId.toString(), ItemsRules(), GUIRules())
+                TimerGUI.RULES.buildInventory(player, player.uniqueId.toString(), ItemsRules(player.language()), GUIRules())
                 return@event
             }
 
             9 -> {
                 player.closeInventory()
                 player.click()
-                TimerGUI.GOALS.buildInventory(player, player.uniqueId.toString(), ItemsGoals(), GUIGoals())
+                TimerGUI.GOALS.buildInventory(player, player.uniqueId.toString(), ItemsGoals(player.language()), GUIGoals())
                 return@event
             }
 

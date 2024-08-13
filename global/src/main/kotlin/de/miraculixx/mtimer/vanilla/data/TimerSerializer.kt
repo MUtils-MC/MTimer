@@ -8,17 +8,17 @@ import kotlin.time.Duration
 
 @Serializable
 data class TimerData(
-    val timerDesign: @Serializable(with = UUIDSerializer::class) UUID,
-    val time: Duration,
-    val isVisible: Boolean,
-    val countingUp: Boolean,
+    val timerDesign: @Serializable(with = UUIDSerializer::class) UUID = UUID.randomUUID(),
+    val time: Duration = Duration.ZERO,
+    val isVisible: Boolean = true,
+    val countingUp: Boolean = true,
     val playerUUID: @Serializable(with = UUIDSerializer::class) UUID? = null
 )
 
 @Serializable
 data class TimerDesign(
-    val running: TimerDesignPart,
-    val idle: TimerDesignPart,
+    val running: TimerDesignPart?,
+    val idle: TimerDesignPart?,
     var name: String = "New Design",
     var owner: String = "MUtils",
     var barColor: BossBar.Color = BossBar.Color.BLUE,

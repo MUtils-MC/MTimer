@@ -1,5 +1,6 @@
 package de.miraculixx.mtimer.command
 
+import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.mtimer.gui.actions.GUIColorBuilder
 import de.miraculixx.mtimer.gui.actions.GUIGradientEditor
 import de.miraculixx.mtimer.gui.buildInventory
@@ -21,7 +22,7 @@ class HelperCommand {
                 TimerGUI.COLOR.buildInventory(
                     player,
                     "${player.uniqueId}-COLOR",
-                    ItemsColorBuilder(newColorBuilder),
+                    ItemsColorBuilder(newColorBuilder, player.language()),
                     GUIColorBuilder(newColorBuilder, null)
                 )
             }
@@ -33,7 +34,7 @@ class HelperCommand {
                 TimerGUI.COLOR.buildInventory(
                     player,
                     "${player.uniqueId}-GRADIENT",
-                    ItemsGradientBuilder(newGradientBuilder),
+                    ItemsGradientBuilder(newGradientBuilder, player.language()),
                     GUIGradientEditor(newGradientBuilder)
                 )
             }

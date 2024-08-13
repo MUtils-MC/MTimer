@@ -59,7 +59,7 @@ class PaperTimer(
                 }
             }
 
-            animator += if (running) design.running.animationSpeed else design.idle.animationSpeed
+            animator += (if (running) design.running?.animationSpeed else design.idle?.animationSpeed) ?: 0.05f
             if (animator > 1.0f) animator -= 2.0f
             else if (animator < -1.0f) animator += 2.0f
 

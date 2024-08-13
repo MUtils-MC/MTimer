@@ -1,16 +1,16 @@
 package de.miraculixx.mtimer.gui
 
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.InventoryManager
+import de.miraculixx.kpaper.gui.items.ItemProvider
+import de.miraculixx.kpaper.gui.items.skullTexture
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.InventoryManager
-import de.miraculixx.mcore.gui.items.ItemProvider
-import de.miraculixx.mcore.gui.items.skullTexture
+import de.miraculixx.mcommons.statics.KHeads
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mvanilla.gui.Head64
-import de.miraculixx.mvanilla.messages.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.SkullMeta
@@ -33,16 +33,16 @@ fun TimerGUI.buildInventory(player: Player, id: String, itemProvider: ItemProvid
             this.headers = listOf(
                 itemStack(Material.PLAYER_HEAD) {
                     meta {
-                        name = cmp(msgString("items.createDesign.n"), cHighlight)
-                        lore(msgList("items.createDesign.l", inline = "<grey>"))
+                        name = cmp(defaultLocale.msgString("items.createDesign.n"), cHighlight)
+                        lore(defaultLocale.msgList("items.createDesign.l", inline = "<grey>"))
                         customModel = 1
                     }
-                    itemMeta = (itemMeta as SkullMeta).skullTexture(Head64.PLUS_GREEN.value)
+                    itemMeta = (itemMeta as SkullMeta).skullTexture(KHeads.PLUS_GREEN)
                 },
                 itemStack(Material.PAINTING) {
                     meta {
-                        name = cmp(msgString("items.changeDisplay.n"), cHighlight)
-                        lore(msgList("items.changeDisplay.l", inline = "<grey>"))
+                        name = cmp(defaultLocale.msgString("items.changeDisplay.n"), cHighlight)
+                        lore(defaultLocale.msgList("items.changeDisplay.l", inline = "<grey>"))
                         customModel = 2
                     }
                 }
@@ -66,13 +66,6 @@ fun TimerGUI.buildInventory(player: Player, id: String, itemProvider: ItemProvid
         }
 
         TimerGUI.GOALS, TimerGUI.RULES -> InventoryManager.scrollBuilder(id) {
-            this.title = this@buildInventory.title
-            this.player = player
-            this.itemProvider = itemProvider
-            this.clickAction = clickAction.run
-        }
-
-        TimerGUI.TEST -> InventoryManager.libraryBuilder(id) {
             this.title = this@buildInventory.title
             this.player = player
             this.itemProvider = itemProvider

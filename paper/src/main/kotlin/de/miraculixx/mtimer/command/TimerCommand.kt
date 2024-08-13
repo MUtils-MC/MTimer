@@ -3,6 +3,12 @@
 package de.miraculixx.mtimer.command
 
 import de.miraculixx.kpaper.extensions.broadcast
+import de.miraculixx.kpaper.extensions.bukkit.language
+import de.miraculixx.kpaper.extensions.bukkit.msg
+import de.miraculixx.mcommons.debug
+import de.miraculixx.mcommons.extensions.soundDisable
+import de.miraculixx.mcommons.extensions.soundEnable
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.MTimer
 import de.miraculixx.mtimer.gui.actions.GUIOverview
 import de.miraculixx.mtimer.gui.buildInventory
@@ -12,10 +18,6 @@ import de.miraculixx.mtimer.module.load
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
 import de.miraculixx.mtimer.vanilla.module.Timer
 import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mvanilla.extensions.soundDisable
-import de.miraculixx.mvanilla.extensions.soundEnable
-import de.miraculixx.mvanilla.messages.*
-import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -31,7 +33,7 @@ class TimerCommand {
             playerExecutor { player, _ -> openSetup(player, false) }
         }
 
-        literalArgument("resume") {
+        literalArgument("start") {
             anyExecutor { sender, _ -> sender.resume(false) }
         }
 
@@ -55,18 +57,6 @@ class TimerCommand {
                 anyExecutor { sender, _ ->
                     TimerManager.load(MTimer.configFolder)
                     sender.sendMessage(prefix + cmp("Reloaded all temporary data from disk"))
-                }
-            }
-            literalArgument("language") {
-                stringArgument("name") {
-                    replaceSuggestions(ArgumentSuggestions.stringCollection {
-                        langFolder.listFiles()?.map { it.nameWithoutExtension } ?: emptyList()
-                    })
-                    anyExecutor { sender, args ->
-                        val key = args[0] as String
-                        if (MTimer.localization.setLanguage(key)) sender.sendMessage(prefix + msg("command.language"))
-                        else sender.sendMessage(prefix + cmp("Invalid language file! Copy an existing file to start editing"))
-                    }
                 }
             }
         }
@@ -101,7 +91,7 @@ class TimerCommand {
             }
         }
 
-        literalArgument("resume") {
+        literalArgument("start") {
             playerExecutor { sender, _ -> sender.resume(true) }
         }
 
@@ -179,7 +169,7 @@ class TimerCommand {
         TimerGUI.OVERVIEW.buildInventory(
             player,
             id,
-            ItemsOverview(getTimer(target, isPersonal), isPersonal),
+            ItemsOverview(getTimer(target, isPersonal), isPersonal, player.language()),
             GUIOverview(isPersonal)
         )
     }

@@ -12,7 +12,7 @@ data class Settings(
 
 @Serializable
 data class Rules(
-    var freezeWorld: Boolean = true,
+    var freezeWorld: Boolean = false,
     var announceSeed: Boolean = true,
     var announceLocation: Boolean = true,
     var announceBack: Boolean = true,

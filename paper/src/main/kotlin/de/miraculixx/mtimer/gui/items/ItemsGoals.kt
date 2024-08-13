@@ -1,17 +1,16 @@
 package de.miraculixx.mtimer.gui.items
 
+import de.miraculixx.kpaper.gui.items.ItemProvider
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.majorVersion
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mcore.gui.items.ItemProvider
 import de.miraculixx.mtimer.vanilla.module.goals
-import de.miraculixx.mvanilla.messages.*
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import java.util.Locale
+import java.util.*
 
 class ItemsGoals(private val locale: Locale) : ItemProvider {
     private val infoLore = listOf(emptyComponent(), cmp("∙ ") + cmp("Info", cHighlight, underlined = true))
@@ -63,16 +62,16 @@ class ItemsGoals(private val locale: Locale) : ItemProvider {
             4 -> itemStack(Material.PLAYER_HEAD) {
                 meta {
                     customModel = 5
-                    name = cmp(msgString("items.playerDeath.n"), cHighlight)
-                    lore(infoLore + msgList("items.playerDeath.l") + clickLore)
+                    name = cmp(locale.msgString("items.playerDeath.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.playerDeath.l") + clickLore)
                 }
             } to goals.playerDeath
 
             5 -> itemStack(Material.STRUCTURE_VOID) {
                 meta {
                     customModel = 6
-                    name = cmp(msgString("items.lastPlayer.n"), cHighlight)
-                    lore(infoLore + msgList("items.lastPlayer.l") + clickLore)
+                    name = cmp(locale.msgString("items.lastPlayer.n"), cHighlight)
+                    lore(infoLore + locale.msgList("items.lastPlayer.l") + clickLore)
                 }
             } to goals.emptyServer
 

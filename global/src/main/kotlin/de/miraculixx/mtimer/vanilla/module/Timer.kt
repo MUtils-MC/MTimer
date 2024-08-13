@@ -75,6 +75,7 @@ abstract class Timer(
 
     fun buildFormatted(running: Boolean): Component {
         val formatter = if (running) design.running else design.idle
+        if (formatter == null) return cmp("<invalid-design>", cError)
         var syntax = formatter.syntax
         syntax = syntax.replace("<prefix>", formatter.prefix)
         syntax = syntax.replace("<suffix>", formatter.suffix)

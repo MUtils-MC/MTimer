@@ -1,13 +1,13 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.await.implementations.AwaitChatMessage
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
-import de.miraculixx.mcore.await.AwaitChatMessage
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
+import de.miraculixx.mcommons.extensions.*
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.vanilla.data.ColorBuilder
 import de.miraculixx.mtimer.vanilla.data.ColorType
-import de.miraculixx.mvanilla.extensions.*
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
@@ -23,14 +23,14 @@ class GUIColorBuilder(data: ColorBuilder, prevInv: CustomInventory? = null) : GU
 
         when (item.itemMeta?.customModel) {
             1 -> {
-                data.type = ColorType.values().enumRotate(data.type)
+                data.type = ColorType.entries.nextValue(data.type)
                 player.click()
             }
 
             2 -> {
                 val allNames = NamedTextColor.NAMES
                 val current = allNames.valueOr(data.input, NamedTextColor.WHITE)
-                data.input = allNames.values().toTypedArray().enumRotate(current).toString()
+                data.input = allNames.values().toTypedArray().nextValue(current).toString()
                 player.click()
             }
 
@@ -38,7 +38,7 @@ class GUIColorBuilder(data: ColorBuilder, prevInv: CustomInventory? = null) : GU
             4 -> data.g = player.calcNumber(data.g, it.click)
             5 -> data.b = player.calcNumber(data.b, it.click)
 
-            6 -> AwaitChatMessage(false, player, "Hexcode (#000000)", 60, data.input, false, emptyComponent(), { input ->
+            6 -> AwaitChatMessage(player, "Hexcode (#000000)", 60, data.input, false, emptyComponent(), { input ->
                 val newColor = TextColor.fromHexString(input)
                 if (newColor == null) player.soundError()
                 else data.input = input

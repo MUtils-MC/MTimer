@@ -1,18 +1,15 @@
 package de.miraculixx.mtimer.gui.items
 
+import de.miraculixx.kpaper.gui.items.ItemProvider
+import de.miraculixx.kpaper.gui.items.skullTexture
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.statics.KHeads
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mcore.gui.items.ItemProvider
-import de.miraculixx.mcore.gui.items.skullTexture
 import de.miraculixx.mtimer.vanilla.data.ColorBuilder
 import de.miraculixx.mtimer.vanilla.data.ColorType
-import de.miraculixx.mtimer.vanilla.utils.*
-import de.miraculixx.mvanilla.gui.Head64
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color
@@ -21,11 +18,11 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.Locale
+import java.util.*
 
 class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Locale) : ItemProvider {
-    private val msgTypeName = cmp(msgString("items.color.type.n"), cHighlight, bold = true)
-    private val msgTypeLore = msgList("items.color.type.l", inline = "<grey>")
+    private val msgTypeName = cmp(locale.msgString("items.color.type.n"), cHighlight, bold = true)
+    private val msgTypeLore = locale.msgList("items.color.type.l", inline = "<grey>")
     private val msgSettings = cmp("∙ ") + cmp("Settings", cHighlight, underlined = true)
     private val msgOutput = cmp("∙ ") + cmp("Output", cHighlight, underlined = true)
 
@@ -45,7 +42,7 @@ class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Loca
                     put(15, itemStack(Material.GRAY_STAINED_GLASS_PANE) { meta { customModel = 98; emptyComponent() } })
                     put(14, itemStack(Material.LEATHER_CHESTPLATE) {
                         meta<LeatherArmorMeta> {
-                            name = cmp(msgString("items.color.vanilla.n"), cHighlight)
+                            name = cmp(locale.msgString("items.color.vanilla.n"), cHighlight)
                             lore(buildLore(currentColor) + (locale.msgClick() + cmp("Switch")))
                             customModel = 2
                             setColor(Color.fromRGB(currentColor.value()))
@@ -58,21 +55,21 @@ class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Loca
                     val clickLore = listOf(locale.msgClickLeft() + cmp("+1"), locale.msgClickRight() + cmp("-1"), locale.msgShiftClickLeft() + cmp("+10"), locale.msgShiftClickRight() + cmp("-10"))
                     put(13, itemStack(Material.RED_DYE) {
                         meta {
-                            name = cmp(msgString("items.color.red.n"), cHighlight)
+                            name = cmp(locale.msgString("items.color.red.n"), cHighlight)
                             lore(buildLore(currentColor) + clickLore)
                             customModel = 3
                         }
                     })
                     put(14, itemStack(Material.GREEN_DYE) {
                         meta {
-                            name = cmp(msgString("items.color.green.n"), cHighlight)
+                            name = cmp(locale.msgString("items.color.green.n"), cHighlight)
                             lore(buildLore(currentColor) + clickLore)
                             customModel = 4
                         }
                     })
                     put(15, itemStack(Material.BLUE_DYE) {
                         meta {
-                            name = cmp(msgString("items.color.blue.n"), cHighlight)
+                            name = cmp(locale.msgString("items.color.blue.n"), cHighlight)
                             lore(buildLore(currentColor) + clickLore)
                             customModel = 5
                         }
@@ -84,7 +81,7 @@ class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Loca
                     put(15, itemStack(Material.GRAY_STAINED_GLASS_PANE) { meta { customModel = 98; emptyComponent() } })
                     put(14, itemStack(Material.LEATHER_CHESTPLATE) {
                         meta<LeatherArmorMeta> {
-                            name = cmp(msgString("items.color.hex.n"), cHighlight)
+                            name = cmp(locale.msgString("items.color.hex.n"), cHighlight)
                             lore(buildLore(currentColor) + (locale.msgClick() + cmp("Enter")))
                             customModel = 6
                             setColor(Color.fromRGB(currentColor.value()))
@@ -95,7 +92,7 @@ class ItemsColorBuilder(private val data: ColorBuilder, private val locale: Loca
             }
             put(22, itemStack(Material.PLAYER_HEAD) {
                 meta {
-                    name = cmp(msgString("event.finish"), cHighlight)
+                    name = cmp(locale.msgString("event.finish"), cHighlight)
                     customModel = 10
                 }
                 itemMeta = (itemMeta as SkullMeta).skullTexture(KHeads.CHECKMARK_GREEN)

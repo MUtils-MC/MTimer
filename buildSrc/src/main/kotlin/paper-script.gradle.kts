@@ -14,26 +14,27 @@ description = properties["description"] as String
 
 val gameVersion by properties
 val foliaSupport = properties["foliaSupport"] as String == "true"
-val projectName = properties["name"] as String
+val projectName = properties["projectName"] as String
 
 repositories {
     mavenCentral()
     mavenLocal()
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 
     // Kotlin libraries
     library(kotlin("stdlib"))
-    library("org.jetbrains.kotlinx:kotlinx-serialization-json:1.+")
-    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.+")
+    library("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+")
+    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.+")
 
     // Utility libraries (optional)
     val useBrigadier = properties["useBrigadier"] as String == "true"
     if (useBrigadier) {
-        implementation("dev.jorel:commandapi-bukkit-shade:9.4.0")
-        library("dev.jorel:commandapi-bukkit-kotlin:9.4.0")
+        implementation("dev.jorel:commandapi-bukkit-shade:9.5.3")
+        library("dev.jorel:commandapi-bukkit-kotlin:9.5.3")
     }
 
     implementation("de.miraculixx:kpaper-light:1.2.1")
@@ -50,6 +51,8 @@ tasks {
 }
 
 bukkit {
+    println(projectName)
+    name = projectName
     main = "$group.${projectName.lowercase()}.${projectName}"
     apiVersion = "1.16"
     foliaSupported = foliaSupport
@@ -58,4 +61,8 @@ bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     depend = listOf()
     softDepend = listOf()
+    libraries = listOf(
+        "io.ktor:ktor-client-core-jvm:2.3.7",
+        "io.ktor:ktor-client-cio-jvm:2.3.7"
+    )
 }

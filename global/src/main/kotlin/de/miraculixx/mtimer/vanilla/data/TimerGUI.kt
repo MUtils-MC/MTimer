@@ -9,7 +9,6 @@ import net.kyori.adventure.text.format.NamedTextColor
 enum class TimerGUI(val title: Component) {
     COLOR(cmp("• ", NamedTextColor.DARK_GRAY) + cmp("Color Picker", cHighlight)),
 
-    TEST(cmp("TEST")),
     RULES(cmp("• ", NamedTextColor.DARK_GRAY) + cmp("Timer Rules", cHighlight)),
     GOALS(cmp("• ", NamedTextColor.DARK_GRAY) + cmp("Timer Goals", cHighlight)),
     DESIGN_PART_EDITOR(cmp("• ", NamedTextColor.DARK_GRAY) + cmp("Timer Design Editor", cHighlight)),

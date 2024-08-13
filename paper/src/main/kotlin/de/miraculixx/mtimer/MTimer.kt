@@ -16,6 +16,7 @@ import de.miraculixx.mcommons.minorVersion
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.command.HelperCommand
 import de.miraculixx.mtimer.command.TimerCommand
+import de.miraculixx.mtimer.module.GlobalListener
 import de.miraculixx.mtimer.module.TimerAPI
 import de.miraculixx.mtimer.module.load
 import de.miraculixx.mtimer.vanilla.data.Settings
@@ -59,12 +60,12 @@ class MTimer : KPaper() {
         settings = configFile.loadConfig(Settings())
         val languages = listOf(Locale.ENGLISH, Locale.GERMAN, Locale.forLanguageTag("es")).map { it to javaClass.getResourceAsStream("/language/mtimer/$it.yml") }
         localization = Localization(File("${configFolder.path}/language"), settings.language, languages)
+        GlobalListener
 
         // Connect Bridge
         bridgeAPI = MUtilsBridge(MUtilsPlatform.PAPER, MUtilsModule.TIMER, server.version, server.port, debug)
         CoroutineScope(Dispatchers.Default).launch {
-            val version = bridgeAPI.versionCheck(description.version.toInt(), File("plugins/update"))
-            if (!version) return@launch
+            val version = bridgeAPI.versionCheck(description.version.toIntOrNull() ?: 0, File("plugins/update"))
 
             sync {
                 TimerCommand()

@@ -10,12 +10,13 @@ import de.miraculixx.kpaper.extensions.onlinePlayers
 import de.miraculixx.kpaper.extensions.worlds
 import de.miraculixx.kpaper.runnables.sync
 import de.miraculixx.kpaper.runnables.task
+import de.miraculixx.mcommons.majorVersion
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.vanilla.data.Punishment
 import de.miraculixx.mtimer.vanilla.module.Timer
 import de.miraculixx.mtimer.vanilla.module.TimerManager
 import de.miraculixx.mtimer.vanilla.module.goals
 import de.miraculixx.mtimer.vanilla.module.rules
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.GameMode
@@ -105,30 +106,31 @@ class TimerListener {
             val loc = it.entity.location
             timer.running = false
             val dash = cmp("\n======================\n", NamedTextColor.DARK_AQUA, bold = true, strikethrough = true)
-            var cmp = dash + cmp(msgString("event.gameOver", listOf(player.name)), cError, bold = true)
+            var cmp = dash + cmp(defaultLocale.msgString("event.gameOver", listOf(player.name)), cError, bold = true)
 
             if (rules.announceLocation)
-                cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + (cmp(msgString("event.location"), NamedTextColor.GOLD, true) + cmp(
+                cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + (cmp(defaultLocale.msgString("event.location"), NamedTextColor.GOLD, true) + cmp(
                     "${loc.blockX} ${loc.blockY} ${loc.blockZ}",
                     NamedTextColor.YELLOW
                 ))
                     .addHover(
-                        cmp(msgString("event.exactLocation"), cHighlight) + cmp(" ${loc.toSimpleString()}\n") +
-                                cmp(msgString("event.world"), cHighlight) + cmp(" ${loc.world.name}")
+                        cmp(defaultLocale.msgString("event.exactLocation"), cHighlight) + cmp(" ${loc.toSimpleString()}\n") +
+                                cmp(defaultLocale.msgString("event.world"), cHighlight) + cmp(" ${loc.world.name}")
                     )
 
             if (rules.announceSeed) {
                 val seed = loc.world.seed.toString()
                 cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + (cmp("Seed: ", NamedTextColor.GOLD, true) + cmp(seed, NamedTextColor.YELLOW))
-                    .addHover(cmp(msgString("event.clickToCopy", listOf(seed)), cHighlight))
+                    .addHover(cmp(defaultLocale.msgString("event.clickToCopy", listOf(seed)), cHighlight))
                     .clickEvent(ClickEvent.copyToClipboard(seed))
             }
 
-            cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + cmp(msgString("event.playtime"), NamedTextColor.GOLD, true) + cmp(timer.buildSimple(), NamedTextColor.YELLOW)
+            cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + cmp(defaultLocale.msgString("event.playtime"), NamedTextColor.GOLD, true) + cmp(timer.buildSimple(), NamedTextColor.YELLOW)
 
             if (rules.announceBack) {
                 val cmd = "/execute in ${loc.world.key().asString()} run teleport @s ${loc.blockX} ${loc.blockY} ${loc.blockZ}"
-                cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + (cmp("") + msg("event.backPrompt").addHover(cmp(cmd)).clickEvent(ClickEvent.runCommand(cmd)).color(NamedTextColor.GOLD))
+                cmp = cmp + cmp("\n>> ", NamedTextColor.DARK_GRAY) + (cmp("") + defaultLocale.msg("event.backPrompt").addHover(cmp(cmd)).clickEvent(ClickEvent.runCommand(cmd))
+                    .color(NamedTextColor.GOLD))
             }
 
             broadcast(cmp + dash)
@@ -148,9 +150,9 @@ class TimerListener {
 
         val punish = rules.punishmentSetting
         if (punish.active) {
-            val kickMsg = msg("event.kick", listOf(player.name))
+            val kickMsg = defaultLocale.msg("event.kick", listOf(player.name))
             if (punish.type == Punishment.BAN) {
-                player.banPlayer(msgString("event.ban", listOf(player.name)))
+                player.banPlayer(defaultLocale.msgString("event.ban", listOf(player.name)))
                 player.kick(kickMsg)
             } else player.kick(kickMsg)
         }
@@ -174,7 +176,7 @@ class TimerListener {
 
         if (onlinePlayers.size <= 1 && goals.emptyServer) {
             TimerManager.globalTimer.running = false
-            console.sendMessage(msg("command.stop", listOf("Console")))
+            console.sendMessage(defaultLocale.msg("command.stop", listOf("Console")))
         }
     }
 
@@ -185,17 +187,17 @@ class TimerListener {
         //challenges = ChallengeStatus.PAUSED
         val dash = cmp("\n======================\n", NamedTextColor.DARK_AQUA, bold = true, strikethrough = true)
         val dashes = cmp("\n>> ", NamedTextColor.DARK_GRAY)
-        var final = dash + cmp(msgString("event.endSuccess"), cSuccess, true) +
+        var final = dash + cmp(defaultLocale.msgString("event.endSuccess"), cSuccess, true) +
                 dashes + cmp(entity.name, NamedTextColor.GOLD, true)
 
         if (rules.announceSeed) {
             val seed = entity.world.seed.toString()
             final += dashes + (cmp("Seed: ", NamedTextColor.GOLD, true) + cmp(seed, NamedTextColor.YELLOW))
-                .addHover(cmp(msgString("event.clickCopy"), cHighlight))
+                .addHover(cmp(defaultLocale.msgString("event.clickCopy"), cHighlight))
                 .clickEvent(ClickEvent.copyToClipboard(seed))
         }
 
-        broadcast(final + dashes + cmp(msgString("event.playtime"), NamedTextColor.GOLD, true) + cmp(" ${timer.buildSimple()}") + dash)
+        broadcast(final + dashes + cmp(defaultLocale.msgString("event.playtime"), NamedTextColor.GOLD, true) + cmp(" ${timer.buildSimple()}") + dash)
     }
 
 

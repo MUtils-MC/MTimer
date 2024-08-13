@@ -8,7 +8,7 @@ tasks {
     shadowJar {
         dependencies {
             include {
-                it.moduleGroup == group || it.moduleGroup == "dev.jorel"
+                it.moduleGroup == "de.miraculixx" || it.moduleGroup == "dev.jorel"
             }
         }
         relocate("dev.jorel.commandapi", "de.miraculixx.timer.commandapi")

@@ -1,16 +1,16 @@
 package de.miraculixx.mtimer.gui.items
 
+import de.miraculixx.kpaper.gui.items.ItemProvider
+import de.miraculixx.kpaper.gui.items.skullTexture
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
-import de.miraculixx.mcore.gui.items.ItemProvider
-import de.miraculixx.mcore.gui.items.skullTexture
+import de.miraculixx.mcommons.extensions.msg
+import de.miraculixx.mcommons.statics.KHeads
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.vanilla.data.ColorBuilder
 import de.miraculixx.mtimer.vanilla.data.GradientBuilder
-import de.miraculixx.mvanilla.extensions.msg
-import de.miraculixx.mvanilla.gui.Head64
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.Component
 import org.bukkit.Color
 import org.bukkit.Material
@@ -18,11 +18,15 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
+import java.util.*
 
-class ItemsGradientBuilder(private val data: GradientBuilder) : ItemProvider {
-    private val msgAnimateName = cmp(msgString("items.color.animate.n"), cHighlight)
-    private val msgAnimateLore = msgList("items.color.animate.l", inline = "<grey>")
-    private val msgNone = cmp(msgString("common.none"), cError)
+class ItemsGradientBuilder(
+    private val data: GradientBuilder,
+    private val locale: Locale
+) : ItemProvider {
+    private val msgAnimateName = cmp(locale.msgString("items.color.animate.n"), cHighlight)
+    private val msgAnimateLore = locale.msgList("items.color.animate.l", inline = "<grey>")
+    private val msgNone = cmp(locale.msgString("common.none"), cError)
     private val msgSettings = cmp("∙ ") + cmp("Settings", cHighlight, underlined = true)
     private val msgOutput = cmp("∙ ") + cmp("Output", cHighlight, underlined = true)
 
@@ -35,7 +39,7 @@ class ItemsGradientBuilder(private val data: GradientBuilder) : ItemProvider {
                         msgAnimateLore + listOf(
                             emptyComponent(),
                             msgSettings,
-                            cmp("   " + msgString("items.color.animate.s") + ": ") + cmp(this@ItemsGradientBuilder.data.isAnimated.msg())
+                            cmp("   " + locale.msgString("items.color.animate.s") + ": ") + cmp(this@ItemsGradientBuilder.data.isAnimated.msg(locale))
                         )
                     )
                     customModel = 1
@@ -47,7 +51,7 @@ class ItemsGradientBuilder(private val data: GradientBuilder) : ItemProvider {
                     put(12 + index, itemStack(Material.STRUCTURE_VOID) {
                         meta {
                             name = msgNone
-                            lore(listOf(emptyComponent(), msgClick + cmp("Add Color")))
+                            lore(listOf(emptyComponent(), locale.msgClick() + cmp("Add Color")))
                             customModel = 10 + index
                         }
                     })
@@ -65,10 +69,10 @@ class ItemsGradientBuilder(private val data: GradientBuilder) : ItemProvider {
             }
             put(22, itemStack(Material.PLAYER_HEAD) {
                 meta {
-                    name = cmp(msgString("event.finish"), cHighlight)
+                    name = cmp(locale.msgString("event.finish"), cHighlight)
                     customModel = 2
                 }
-                itemMeta = (itemMeta as SkullMeta).skullTexture(Head64.CHECKMARK_GREEN.value)
+                itemMeta = (itemMeta as SkullMeta).skullTexture(KHeads.CHECKMARK_GREEN)
             })
         }
     }
@@ -78,8 +82,8 @@ class ItemsGradientBuilder(private val data: GradientBuilder) : ItemProvider {
             add(msgOutput)
             add(cmp("   (╯°□°）╯︵ ┻━┻", data.getColor()))
             add(emptyComponent())
-            add(msgClickLeft + cmp("Change Color"))
-            add(msgShiftClickRight + cmp("Delete"))
+            add(locale.msgClickLeft() + cmp("Change Color"))
+            add(locale.msgShiftClickRight() + cmp("Delete"))
         }
     }
 }

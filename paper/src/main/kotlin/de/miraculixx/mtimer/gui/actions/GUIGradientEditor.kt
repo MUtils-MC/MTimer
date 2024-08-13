@@ -1,16 +1,17 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.extensions.bukkit.language
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
+import de.miraculixx.mcommons.extensions.*
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsColorBuilder
 import de.miraculixx.mtimer.vanilla.data.ColorBuilder
 import de.miraculixx.mtimer.vanilla.data.ColorType
 import de.miraculixx.mtimer.vanilla.data.GradientBuilder
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mvanilla.extensions.*
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -20,6 +21,7 @@ class GUIGradientEditor(data: GradientBuilder) : GUIEvent {
         it.isCancelled = true
         val player = it.whoClicked as? Player ?: return@event
         val item = it.currentItem ?: return@event
+        val locale = player.language()
 
         when (val id = item.itemMeta?.customModel ?: 0) {
             1 -> {
@@ -31,7 +33,7 @@ class GUIGradientEditor(data: GradientBuilder) : GUIEvent {
             2 -> {
                 if (data.colors.size < 2) {
                     player.soundError()
-                    player.sendMessage(prefix + msg("event.notEnoughColors"))
+                    player.sendMessage(prefix + locale.msg("event.notEnoughColors"))
                     return@event
                 }
                 val formatted = buildString {
@@ -54,10 +56,10 @@ class GUIGradientEditor(data: GradientBuilder) : GUIEvent {
                     val color = data.colors.getOrNull(index)
                     if (color == null) { //New Color
                         val newColor = ColorBuilder(ColorType.RGB, "white", 0, 0, 0)
-                        TimerGUI.COLOR.buildInventory(player, "${player.uniqueId}-COLOR", ItemsColorBuilder(newColor), GUIColorBuilder(newColor, inv))
+                        TimerGUI.COLOR.buildInventory(player, "${player.uniqueId}-COLOR", ItemsColorBuilder(newColor, locale), GUIColorBuilder(newColor, inv))
                         data.colors.add(newColor)
                     } else {
-                        TimerGUI.COLOR.buildInventory(player, "${player.uniqueId}-COLOR", ItemsColorBuilder(color), GUIColorBuilder(color, inv))
+                        TimerGUI.COLOR.buildInventory(player, "${player.uniqueId}-COLOR", ItemsColorBuilder(color, locale), GUIColorBuilder(color, inv))
                     }
                     player.click()
 

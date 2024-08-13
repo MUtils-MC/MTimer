@@ -18,6 +18,6 @@ group = "de.miraculixx.timer"
 
 sourceSets {
     main {
-        resources.srcDirs("$rootDir/timer/data/")
+        resources.srcDirs("$rootDir/data/")
     }
 }

@@ -1,24 +1,25 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.await.implementations.AwaitChatMessage
+import de.miraculixx.kpaper.extensions.bukkit.language
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.runnables.async
 import de.miraculixx.kpaper.runnables.sync
-import de.miraculixx.mcore.await.AwaitChatMessage
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
+import de.miraculixx.mcommons.extensions.click
+import de.miraculixx.mcommons.extensions.soundEnable
+import de.miraculixx.mcommons.extensions.soundStone
+import de.miraculixx.mcommons.text.cmp
+import de.miraculixx.mcommons.text.emptyComponent
+import de.miraculixx.mcommons.text.msg
 import de.miraculixx.mtimer.MTimer
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesignPartEditor
 import de.miraculixx.mtimer.gui.items.ItemsDesigns
+import de.miraculixx.mtimer.vanilla.data.TimerDesign
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
 import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mvanilla.extensions.click
-import de.miraculixx.mvanilla.extensions.soundEnable
-import de.miraculixx.mvanilla.extensions.soundStone
-import de.miraculixx.mvanilla.messages.cmp
-import de.miraculixx.mvanilla.messages.emptyComponent
-import de.miraculixx.mvanilla.messages.msg
 import net.kyori.adventure.bossbar.BossBar
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -33,8 +34,9 @@ class GUIDesignEditor(
         it.isCancelled = true
         val player = it.whoClicked as? Player ?: return@event
         val item = it.currentItem
+        val locale = player.language()
         when (item?.itemMeta?.customModel ?: 0) {
-            1 -> de.miraculixx.mcore.await.AwaitChatMessage(false, player, "design name", 30, design.name, false, cmp("\n"), {
+            1 -> AwaitChatMessage(player, "design name", 30, design.name, false, cmp("\n"), {
                 design.name = if (it.length > 30) it.dropLast(it.length - 30) else it
                 player.soundEnable()
             }) {
@@ -44,13 +46,13 @@ class GUIDesignEditor(
             2 -> {
                 player.closeInventory()
                 player.click()
-                TimerGUI.DESIGN_PART_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignPartEditor(design, uuid, true), GUIDesignPartEditor(design, uuid, true, isPersonal))
+                TimerGUI.DESIGN_PART_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignPartEditor(design, uuid, true, locale), GUIDesignPartEditor(design, uuid, true, isPersonal))
             }
 
             3 -> {
                 player.closeInventory()
                 player.click()
-                TimerGUI.DESIGN_PART_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignPartEditor(design, uuid, false), GUIDesignPartEditor(design, uuid, false, isPersonal))
+                TimerGUI.DESIGN_PART_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignPartEditor(design, uuid, false, locale), GUIDesignPartEditor(design, uuid, false, isPersonal))
             }
 
             4 -> {
@@ -58,7 +60,7 @@ class GUIDesignEditor(
                 player.soundEnable()
                 val timer = if (isPersonal) TimerManager.getPersonalTimer(player.uniqueId) ?: return@event else TimerManager.globalTimer
                 async { TimerManager.save(MTimer.configFolder) }
-                TimerGUI.DESIGN.buildInventory(player, player.uniqueId.toString(), ItemsDesigns(timer), GUIDesigns(isPersonal, timer))
+                TimerGUI.DESIGN.buildInventory(player, player.uniqueId.toString(), ItemsDesigns(timer, locale), GUIDesigns(isPersonal, timer))
             }
 
             5 -> {
@@ -72,7 +74,7 @@ class GUIDesignEditor(
                     }
 
                     1 -> {
-                        AwaitChatMessage(false, player, "End Sound", 120, design.stopSound.key, false, msg("event.soundEnd"), {
+                        AwaitChatMessage(player, "End Sound", 120, design.stopSound.key, false, locale.msg("event.soundEnd"), {
                             design.stopSound.key = it
                             player.soundEnable()
                         }) {
@@ -84,7 +86,7 @@ class GUIDesignEditor(
                     }
 
                     2 -> {
-                        AwaitChatMessage(false, player, "End Sound Pitch", 30, design.stopSound.pitch.toString(), false, emptyComponent(), {
+                        AwaitChatMessage(player, "End Sound Pitch", 30, design.stopSound.pitch.toString(), false, emptyComponent(), {
                             design.stopSound.pitch = (it.toFloatOrNull() ?: 0f).coerceIn(0f, 2f)
                             player.soundEnable()
                         }) {

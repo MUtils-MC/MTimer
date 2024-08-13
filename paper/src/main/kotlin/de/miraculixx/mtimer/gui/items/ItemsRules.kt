@@ -1,18 +1,19 @@
 package de.miraculixx.mtimer.gui.items
 
+import de.miraculixx.kpaper.gui.items.ItemProvider
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
-import de.miraculixx.mcore.gui.items.ItemProvider
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.vanilla.module.rules
-import de.miraculixx.mvanilla.messages.*
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
-class ItemsRules : ItemProvider {
+class ItemsRules(private val locale: Locale) : ItemProvider {
     private val infoLore = listOf(emptyComponent(), cmp("∙ ") + cmp("Info", cHighlight, underlined = true))
-    private val clickLore = listOf(emptyComponent(), msgClick + cmp("Toggle Rule"))
+    private val clickLore = listOf(emptyComponent(), locale.msgClick() + cmp("Toggle Rule"))
 
     override fun getBooleanMap(from: Int, to: Int): Map<ItemStack, Boolean> {
         return buildMap {
@@ -33,15 +34,15 @@ class ItemsRules : ItemProvider {
             5 -> itemStack(Material.ANVIL) {
                 meta {
                     customModel = 5
-                    name = cmp(msgString("items.punishment.n"), cHighlight)
+                    name = cmp(locale.msgString("items.punishment.n"), cHighlight)
                     lore(
-                        infoLore + msgList("items.punishment.l") + listOf(
+                        infoLore + locale.msgList("items.punishment.l") + listOf(
                             emptyComponent(),
                             cmp("∙ ") + cmp("Settings", cHighlight, true),
                             cmp("   Action: ") + cmp(rules.punishmentSetting.type.name, cHighlight),
                             emptyComponent(),
-                            msgClickLeft + cmp("Toggle Rule"),
-                            msgClickRight + cmp("Switch Punishment")
+                            locale.msgClickLeft() + cmp("Toggle Rule"),
+                            locale.msgClickRight() + cmp("Switch Punishment")
                         )
                     )
                 }
@@ -58,8 +59,8 @@ class ItemsRules : ItemProvider {
         return itemStack(this) {
             meta {
                 customModel = id
-                name = cmp(msgString("items.$key.n"), cHighlight)
-                lore(infoLore + msgList("items.$key.l") + clickLore)
+                name = cmp(locale.msgString("items.$key.n"), cHighlight)
+                lore(infoLore + locale.msgList("items.$key.l") + clickLore)
             }
         } to value
     }

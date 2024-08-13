@@ -1,24 +1,24 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.kpaper.extensions.onlinePlayers
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
+import de.miraculixx.mcommons.extensions.*
+import de.miraculixx.mcommons.namespace
+import de.miraculixx.mcommons.text.emptyComponent
 import de.miraculixx.mtimer.MTimer
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.data.TimerPresets
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesignEditor
 import de.miraculixx.mtimer.gui.items.ItemsOverview
+import de.miraculixx.mtimer.vanilla.data.TimerDesign
 import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.vanilla.data.TimerPresets
 import de.miraculixx.mtimer.vanilla.module.Timer
 import de.miraculixx.mtimer.vanilla.module.TimerManager
 import de.miraculixx.mtimer.vanilla.module.settings
-import de.miraculixx.mvanilla.extensions.*
-import de.miraculixx.mvanilla.messages.cmp
-import de.miraculixx.mvanilla.messages.emptyComponent
-import de.miraculixx.mvanilla.messages.namespace
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -26,7 +26,6 @@ import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-import org.bukkit.scoreboard.DisplaySlot
 import java.io.File
 import java.util.*
 
@@ -35,13 +34,14 @@ class GUIDesigns(private val isPersonal: Boolean, private val timer: Timer) : GU
         it.isCancelled = true
         val player = it.whoClicked as? Player ?: return@event
         val item = it.currentItem
+        val locale = player.language()
 
         when (item?.itemMeta?.customModel ?: 0) {
             0 -> {
                 player.closeInventory()
                 player.click()
                 val id = if (isPersonal) player.uniqueId.toString() else "TIMER_GLOBAL"
-                TimerGUI.OVERVIEW.buildInventory(player, id, ItemsOverview(timer, isPersonal), GUIOverview(isPersonal))
+                TimerGUI.OVERVIEW.buildInventory(player, id, ItemsOverview(timer, isPersonal, locale), GUIOverview(isPersonal))
             }
 
             1 -> {
@@ -52,7 +52,7 @@ class GUIDesigns(private val isPersonal: Boolean, private val timer: Timer) : GU
                 val uuid = UUID.randomUUID()
                 design.owner = player.name
                 TimerManager.addDesign(design, uuid)
-                TimerGUI.DESIGN_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignEditor(design, uuid), GUIDesignEditor(design, uuid, isPersonal))
+                TimerGUI.DESIGN_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignEditor(design, uuid, locale), GUIDesignEditor(design, uuid, isPersonal))
             }
 
             2 -> {
@@ -66,6 +66,7 @@ class GUIDesigns(private val isPersonal: Boolean, private val timer: Timer) : GU
                         }
                         TimerDisplaySlot.BOSSBAR
                     }
+
                     TimerDisplaySlot.BOSSBAR -> {
                         targets.forEach { p -> p.hideBossBar(timer.bossBar) }
                         TimerDisplaySlot.HOTBAR
@@ -88,7 +89,7 @@ class GUIDesigns(private val isPersonal: Boolean, private val timer: Timer) : GU
                         player.closeInventory()
                         TimerGUI.DESIGN_EDITOR.buildInventory(
                             player, player.uniqueId.toString(),
-                            ItemsDesignEditor(design.first, design.second), GUIDesignEditor(design.first, design.second, isPersonal)
+                            ItemsDesignEditor(design.first, design.second, locale), GUIDesignEditor(design.first, design.second, isPersonal)
                         )
                     }
 

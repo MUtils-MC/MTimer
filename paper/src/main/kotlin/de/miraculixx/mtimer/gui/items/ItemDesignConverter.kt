@@ -11,8 +11,8 @@ import de.miraculixx.mcommons.text.emptyComponent
 import de.miraculixx.mcommons.text.plus
 import de.miraculixx.mtimer.module.PaperTimer
 import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
@@ -29,7 +29,7 @@ class ItemDesignConverter(private val timerReal: PaperTimer, private val timerFa
                 name = cmp(design.name, cHighlight)
                 lore(
                     listOf(
-                        cmp(uuidString, cHide),
+                        cmp(uuidString, TextColor.color(0x333333)),
                         cmp("Creator: ${design.owner}"),
                         emptyComponent(),
                         cmp("∙ ") + cmp("Design", cHighlight, underlined = true) + cmp(" (1d 10h 5m 20s)"),

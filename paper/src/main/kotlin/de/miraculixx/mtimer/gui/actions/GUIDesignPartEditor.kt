@@ -1,16 +1,17 @@
 package de.miraculixx.mtimer.gui.actions
 
+import de.miraculixx.kpaper.await.implementations.AwaitChatMessage
+import de.miraculixx.kpaper.extensions.bukkit.language
+import de.miraculixx.kpaper.gui.GUIEvent
+import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
-import de.miraculixx.mcore.await.AwaitChatMessage
-import de.miraculixx.mcore.gui.GUIEvent
-import de.miraculixx.mcore.gui.data.CustomInventory
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.data.TimerDesignValue
+import de.miraculixx.mcommons.extensions.*
+import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesignEditor
+import de.miraculixx.mtimer.vanilla.data.TimerDesign
+import de.miraculixx.mtimer.vanilla.data.TimerDesignValue
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mvanilla.extensions.*
-import de.miraculixx.mvanilla.messages.*
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -35,14 +36,21 @@ class GUIDesignPartEditor(
         val player = it.whoClicked as? Player ?: return@event
         val item = it.currentItem
         val part = if (isRunning) design.running else design.idle
+        if (part == null) {
+            player.sendMessage(prefix + cmp("This designed is corrupted! Please press escape and delete it", cError))
+            player.soundError()
+            return@event
+        }
+
+        val locale = player.language()
         when (item?.itemMeta?.customModel ?: 0) {
             10 -> {
                 player.closeInventory()
                 player.soundEnable()
-                TimerGUI.DESIGN_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignEditor(design, uuid), GUIDesignEditor(design, uuid, isPersonal))
+                TimerGUI.DESIGN_EDITOR.buildInventory(player, player.uniqueId.toString(), ItemsDesignEditor(design, uuid, locale), GUIDesignEditor(design, uuid, isPersonal))
             }
 
-            1 -> AwaitChatMessage(false, player, "prefix", maxSeconds, part.prefix,
+            1 -> AwaitChatMessage(player, "prefix", maxSeconds, part.prefix,
                 true, awaitInfoMessage, {
                     part.prefix = if (it.length > 300) it.dropLast(it.length - 300) else it
                     player.soundEnable()
@@ -54,7 +62,7 @@ class GUIDesignPartEditor(
             5 -> player.setupValue(part.seconds, inv, it.hotbarButton)
             6 -> player.setupValue(part.millis, inv, it.hotbarButton)
 
-            7 -> AwaitChatMessage(false, player, "suffix", maxSeconds, part.suffix,
+            7 -> AwaitChatMessage(player, "suffix", maxSeconds, part.suffix,
                 true, awaitInfoMessage, {
                     part.suffix = if (it.length > 300) it.dropLast(it.length - 300) else it
                     player.soundEnable()
@@ -81,8 +89,8 @@ class GUIDesignPartEditor(
             }
 
             9 -> {
-                player.sendMessage(prefix + msg("event.syntaxInfo", listOf(player.name)))
-                AwaitChatMessage(false, player, "syntax", maxSeconds, part.syntax,
+                player.sendMessage(prefix + locale.msg("event.syntaxInfo", listOf(player.name)))
+                AwaitChatMessage(player, "syntax", maxSeconds, part.syntax,
                     true, awaitInfoMessage, {
                         part.syntax = if (it.length > 300) it.dropLast(it.length - 300) else it
                         player.soundEnable()
@@ -104,7 +112,7 @@ class GUIDesignPartEditor(
             }
 
             2 -> {
-                AwaitChatMessage(false, this, "prefix", maxSeconds, value.prefix,
+                AwaitChatMessage(this, "prefix", maxSeconds, value.prefix,
                     true, awaitInfoMessage, {
                         value.prefix = if (it.length > 300) it.dropLast(it.length - 300) else it
                         soundEnable()
@@ -112,7 +120,7 @@ class GUIDesignPartEditor(
             }
 
             3 -> {
-                AwaitChatMessage(false, this, "suffix", maxSeconds, value.suffix,
+                AwaitChatMessage(this, "suffix", maxSeconds, value.suffix,
                     true, awaitInfoMessage, {
                         value.suffix = if (it.length > 300) it.dropLast(it.length - 300) else it
                         soundEnable()
