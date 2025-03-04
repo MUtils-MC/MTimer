@@ -26,7 +26,7 @@ The timer provides a complete design creator inside an easy to use GUI. Custom d
 - Separate prefix, suffix and hide rule for every placeholder
 - Custom animations like gradients
 
-[Adventure MiniMessage](https://webui.adventure.kyroi.net) styling is supported! All designs are saved in a separate json file.<br>
+[Adventure MiniMessage](https://webui.advntr.dev/) styling is supported! All designs are saved in a separate json file.<br>
 You can share your best designs in our global designs library for everyone to use or browse for designs you like to use yourself (Does not work in BETA!).
 
 
