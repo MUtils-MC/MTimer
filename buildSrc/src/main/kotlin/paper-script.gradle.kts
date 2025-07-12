@@ -39,7 +39,7 @@ dependencies {
     implementation("de.miraculixx:kpaper-light:1.2.1")
     implementation("de.miraculixx:mc-commons:1.0.1")
     implementation("de.miraculixx:timer-api:1.1.3")
-    implementation("de.miraculixx:mbridge:1.0.0")
+    //implementation("de.miraculixx:mbridge:1.0.0")
 }
 
 tasks {

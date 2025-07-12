@@ -3,9 +3,6 @@ package de.miraculixx.mtimer
 import de.miraculixx.kpaper.extensions.console
 import de.miraculixx.kpaper.main.KPaper
 import de.miraculixx.kpaper.runnables.sync
-import de.miraculixx.mbridge.MUtilsBridge
-import de.miraculixx.mbridge.data.MUtilsModule
-import de.miraculixx.mbridge.data.MUtilsPlatform
 import de.miraculixx.mcommons.debug
 import de.miraculixx.mcommons.extensions.loadConfig
 import de.miraculixx.mcommons.majorVersion
@@ -33,7 +30,7 @@ class MTimer : KPaper() {
         lateinit var INSTANCE: KPaper
         val configFolder = File("plugins/MUtils/Timer")
         lateinit var localization: Localization
-        lateinit var bridgeAPI: MUtilsBridge
+        //lateinit var bridgeAPI: MUtilsBridge
     }
 
     private val configFile = File("${configFolder.path}/settings.json")
@@ -59,9 +56,9 @@ class MTimer : KPaper() {
         GlobalListener
 
         // Connect Bridge
-        bridgeAPI = MUtilsBridge(MUtilsPlatform.PAPER, MUtilsModule.TIMER, server.version, server.port, debug)
+        //bridgeAPI = MUtilsBridge(MUtilsPlatform.PAPER, MUtilsModule.TIMER, server.version, server.port, debug)
         CoroutineScope(Dispatchers.Default).launch {
-            val version = bridgeAPI.versionCheck(description.version.toIntOrNull() ?: 0, File("plugins/update"))
+            //val version = bridgeAPI.versionCheck(description.version.toIntOrNull() ?: 0, File("plugins/update"))
 
             sync {
                 TimerCommand()
