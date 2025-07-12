@@ -5,6 +5,7 @@ package de.miraculixx.mtimer.command
 import de.miraculixx.kpaper.extensions.broadcast
 import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.kpaper.extensions.bukkit.msg
+import de.miraculixx.kpaper.extensions.onlinePlayers
 import de.miraculixx.mcommons.debug
 import de.miraculixx.mcommons.extensions.soundDisable
 import de.miraculixx.mcommons.extensions.soundEnable
@@ -13,6 +14,7 @@ import de.miraculixx.mtimer.MTimer
 import de.miraculixx.mtimer.gui.actions.GUIOverview
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsOverview
+import de.miraculixx.mtimer.module.ChallengeSync
 import de.miraculixx.mtimer.module.PaperTimer
 import de.miraculixx.mtimer.module.load
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
@@ -31,10 +33,23 @@ class TimerCommand {
         playerExecutor { player, _ -> openSetup(player, false) }
         literalArgument("setup") {
             playerExecutor { player, _ -> openSetup(player, false) }
+            literalArgument("visibility") {
+                booleanArgument("visible") {
+                    anyExecutor { player, args ->
+                        val timer = TimerManager.globalTimer
+                        timer.visible = args[0] as Boolean
+                        player.sendMessage(prefix + cmp("Changed visibility to ${timer.visible}"))
+                        onlinePlayers.forEach { it.hideBossBar(timer.bossBar); it.sendActionBar(cmp(" ")) }
+                    }
+                }
+            }
         }
 
         literalArgument("start") {
-            anyExecutor { sender, _ -> sender.resume(false) }
+            anyExecutor { sender, _ ->
+                ChallengeSync.connect()
+                sender.resume(false)
+            }
         }
 
         literalArgument("pause") {
@@ -72,6 +87,13 @@ class TimerCommand {
                     anyExecutor { sender, args -> sender.setTime(false, args[0] as String, true) }
                 }
             }
+            literalArgument("get") {
+                anyResultingExecutor { sender, _ ->
+                    val timer = getTimer(sender, false)
+                    sender.sendMessage(prefix + cmp("Current time: ${timer.time}"))
+                    return@anyResultingExecutor timer.time.inWholeSeconds.toInt()
+                }
+            }
         }
     }
 
@@ -81,37 +103,92 @@ class TimerCommand {
         literalArgument("setup") {
             playerExecutor { player, _ -> openSetup(player, true) }
             entitySelectorArgumentOnePlayer("target") {
-                //Only the GUI needs an external execute form others command
-                //because 'execute as <target> run ...' would open it for the target player
                 withPermission("mutils.command.ptimer-others")
                 playerExecutor { player, args ->
                     val target = args[0] as Player
                     openSetup(player, true, target)
+                }
+
+                literalArgument("visibility") {
+                    booleanArgument("visible") {
+                        anyExecutor { player, args ->
+                            val target = args[0] as Player
+                            val timer = getTimer(target, true)
+                            timer.visible = args[1] as Boolean
+                            player.sendMessage(prefix + cmp("Changed visibility of ${target.name} to ${timer.visible}"))
+                        }
+                    }
                 }
             }
         }
 
         literalArgument("start") {
             playerExecutor { sender, _ -> sender.resume(true) }
+            entitySelectorArgumentOnePlayer("target") {
+                withPermission("mutils.command.ptimer-others")
+                anyExecutor { sender, args ->
+                    val target = (args[0] as Player).resume(true)
+                }
+            }
         }
 
         literalArgument("pause") {
             playerExecutor { sender, _ -> sender.pause(true) }
+            entitySelectorArgumentOnePlayer("target") {
+                withPermission("mutils.command.ptimer-others")
+                anyExecutor { sender, args ->
+                    val target = (args[0] as Player).pause(true)
+                }
+            }
         }
 
         literalArgument("reset") {
             playerExecutor { sender, _ -> sender.reset(true) }
+            entitySelectorArgumentOnePlayer("target") {
+                withPermission("mutils.command.ptimer-others")
+                anyExecutor { sender, args ->
+                    val target = (args[0] as Player).reset(true)
+                }
+            }
         }
 
         literalArgument("time") {
             literalArgument("set") {
-                greedyStringArgument("time") {
+                stringArgument("time") {
                     anyExecutor { sender, args -> sender.setTime(true, args[0] as String, false) }
+                    entitySelectorArgumentOnePlayer("target") {
+                        withPermission("mutils.command.ptimer-others")
+                        anyExecutor { sender, args ->
+                            (args[0] as Player).setTime(true, args[1] as String, false)
+                        }
+                    }
                 }
             }
             literalArgument("add") {
-                greedyStringArgument("time") {
+                stringArgument("time") {
                     anyExecutor { sender, args -> sender.setTime(true, args[0] as String, true) }
+                    entitySelectorArgumentOnePlayer("target") {
+                        withPermission("mutils.command.ptimer-others")
+                        anyExecutor { sender, args ->
+                            (args[0] as Player).setTime(true, args[1] as String, true)
+                        }
+                    }
+                }
+            }
+            literalArgument("get") {
+                anyResultingExecutor { sender, _ ->
+                    val timer = getTimer(sender, true)
+                    sender.sendMessage(prefix + cmp("Current time: ${timer.time}"))
+                    return@anyResultingExecutor timer.time.inWholeSeconds.toInt()
+                }
+                entitySelectorArgumentOnePlayer("target") {
+                    withPermission("mutils.command.ptimer-others")
+                    anyResultingExecutor { sender, args ->
+                        val target = args[0] as Player
+                        val timer = getTimer(target, true)
+                        sender.sendMessage(prefix + cmp("Current time of ${target.name}: ${timer.time}"))
+                        return@anyResultingExecutor timer.time.inWholeSeconds.toInt()
+                    }
                 }
             }
         }
@@ -166,11 +243,12 @@ class TimerCommand {
 
     private fun openSetup(player: Player, isPersonal: Boolean, target: Player = player) {
         val id = if (isPersonal) target.uniqueId.toString() else "TIMER_GLOBAL"
+        val timer = getTimer(target, isPersonal)
         TimerGUI.OVERVIEW.buildInventory(
             player,
             id,
-            ItemsOverview(getTimer(target, isPersonal), isPersonal, player.language()),
-            GUIOverview(isPersonal)
+            ItemsOverview(timer, isPersonal, player.language()),
+            GUIOverview(timer, isPersonal)
         )
     }
 

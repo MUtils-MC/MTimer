@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._285dcef16d8875fee0ec91e18e07daf9.implementation
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
@@ -33,8 +32,8 @@ dependencies {
     // Utility libraries (optional)
     val useBrigadier = properties["useBrigadier"] as String == "true"
     if (useBrigadier) {
-        implementation("dev.jorel:commandapi-bukkit-shade:9.5.3")
-        library("dev.jorel:commandapi-bukkit-kotlin:9.5.3")
+        implementation("dev.jorel:commandapi-bukkit-shade:10.1.1")
+        library("dev.jorel:commandapi-bukkit-kotlin:10.1.1")
     }
 
     implementation("de.miraculixx:kpaper-light:1.2.1")

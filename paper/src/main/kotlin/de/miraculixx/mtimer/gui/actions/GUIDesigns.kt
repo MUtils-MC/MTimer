@@ -41,7 +41,7 @@ class GUIDesigns(private val isPersonal: Boolean, private val timer: Timer) : GU
                 player.closeInventory()
                 player.click()
                 val id = if (isPersonal) player.uniqueId.toString() else "TIMER_GLOBAL"
-                TimerGUI.OVERVIEW.buildInventory(player, id, ItemsOverview(timer, isPersonal, locale), GUIOverview(isPersonal))
+                TimerGUI.OVERVIEW.buildInventory(player, id, ItemsOverview(timer, isPersonal, locale), GUIOverview(timer, isPersonal))
             }
 
             1 -> {

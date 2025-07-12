@@ -43,7 +43,7 @@ class GUIRules : GUIEvent {
 
             0 -> {
                 player.click()
-                TimerGUI.OVERVIEW.buildInventory(player, "TIMER_GLOBAL", ItemsOverview(TimerManager.globalTimer, false, player.language()), GUIOverview(false))
+                TimerGUI.OVERVIEW.buildInventory(player, "TIMER_GLOBAL", ItemsOverview(TimerManager.globalTimer, false, player.language()), GUIOverview(TimerManager.globalTimer, false))
                 return@event
             }
         }

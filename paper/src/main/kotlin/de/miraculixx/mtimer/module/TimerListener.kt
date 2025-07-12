@@ -19,8 +19,10 @@ import de.miraculixx.mtimer.vanilla.module.goals
 import de.miraculixx.mtimer.vanilla.module.rules
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule
+import org.bukkit.Material
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -93,7 +95,7 @@ class TimerListener {
     private val onMove = listen<PlayerMoveEvent>(register = false) {
         val player = it.player
         if (player.isOp) return@listen
-        it.isCancelled = true
+        if (it.hasChangedBlock()) it.isCancelled = true
     }
 
     //

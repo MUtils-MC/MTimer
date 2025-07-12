@@ -1,9 +1,6 @@
 package de.miraculixx.mtimer
 
-import de.miraculixx.challenge.api.MChallengeAPI
-import de.miraculixx.challenge.api.modules.challenges.ChallengeStatus
 import de.miraculixx.kpaper.extensions.console
-import de.miraculixx.kpaper.extensions.pluginManager
 import de.miraculixx.kpaper.main.KPaper
 import de.miraculixx.kpaper.runnables.sync
 import de.miraculixx.mbridge.MUtilsBridge
@@ -16,12 +13,12 @@ import de.miraculixx.mcommons.minorVersion
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.command.HelperCommand
 import de.miraculixx.mtimer.command.TimerCommand
+import de.miraculixx.mtimer.module.ChallengeSync
 import de.miraculixx.mtimer.module.GlobalListener
 import de.miraculixx.mtimer.module.TimerAPI
 import de.miraculixx.mtimer.module.load
 import de.miraculixx.mtimer.vanilla.data.Settings
 import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mtimer.vanilla.module.rules
 import de.miraculixx.mtimer.vanilla.module.settings
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
@@ -37,13 +34,12 @@ class MTimer : KPaper() {
         val configFolder = File("plugins/MUtils/Timer")
         lateinit var localization: Localization
         lateinit var bridgeAPI: MUtilsBridge
-        var challengeAPI: MChallengeAPI? = null
     }
 
     private val configFile = File("${configFolder.path}/settings.json")
 
     override fun load() {
-        CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
+        CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true).beLenientForMinorVersions(true))
     }
 
     override fun startup() {
@@ -74,29 +70,7 @@ class MTimer : KPaper() {
 
             TimerManager.load(configFolder)
             TimerAPI
-            if (pluginManager.isPluginEnabled("MUtils-Challenge")) {
-                challengeAPI = MChallengeAPI.instance
-                if (challengeAPI == null) console.sendMessage(prefix + cmp("Failed to load MChallenge API while it's loaded!", cError))
-                else {
-                    TimerAPI.onStartLogic {
-                        if (rules.syncWithChallenge) {
-                            when (challengeAPI?.getChallengeStatus()) {
-                                ChallengeStatus.PAUSED -> challengeAPI?.resumeChallenges()
-                                ChallengeStatus.STOPPED -> challengeAPI?.startChallenges()
-                                else -> Unit
-                            }
-                        }
-                    }
-                    TimerAPI.onStopLogic {
-                        if (rules.syncWithChallenge) {
-                            when (challengeAPI?.getChallengeStatus()) {
-                                ChallengeStatus.RUNNING -> challengeAPI?.pauseChallenges()
-                                else -> Unit
-                            }
-                        }
-                    }
-                }
-            }
+            ChallengeSync.connect()
         }
     }
 

@@ -13,24 +13,24 @@ import de.miraculixx.mtimer.gui.items.ItemsDesigns
 import de.miraculixx.mtimer.gui.items.ItemsGoals
 import de.miraculixx.mtimer.gui.items.ItemsRules
 import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.vanilla.module.Timer
 import de.miraculixx.mtimer.vanilla.module.TimerManager
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 
-class GUIOverview(private val isPersonal: Boolean) : GUIEvent {
+class GUIOverview(
+    private val timer: Timer,
+    private val isPersonal: Boolean
+) : GUIEvent {
     private val noPersonalTimer = prefix + defaultLocale.msg("event.noPersonalTimer")
 
     override val run: (InventoryClickEvent, CustomInventory) -> Unit = event@{ it: InventoryClickEvent, inv: CustomInventory ->
         it.isCancelled = true
         val player = it.whoClicked as? Player ?: return@event
         val item = it.currentItem
-        val timer = if (isPersonal) TimerManager.getPersonalTimer(player.uniqueId) else TimerManager.globalTimer
-        if (timer == null) {
-            player.sendMessage(noPersonalTimer)
-            return@event
-        }
+
         when (val id = item?.itemMeta?.customModel ?: 0) {
             5 -> {
                 player.closeInventory()

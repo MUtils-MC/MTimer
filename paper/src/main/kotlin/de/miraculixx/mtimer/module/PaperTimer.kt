@@ -4,6 +4,7 @@ import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.kpaper.extensions.onlinePlayers
 import de.miraculixx.kpaper.runnables.task
 import de.miraculixx.mcommons.text.msg
+import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot
 import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.BOSSBAR
 import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.HOTBAR
 import de.miraculixx.mtimer.vanilla.module.Timer
@@ -23,8 +24,8 @@ class PaperTimer(
     playerID: UUID? = null,
     designID: UUID? = null,
     activate: Boolean = true,
-) : Timer(designID) {
-    private val player = playerID?.let { Bukkit.getOfflinePlayer(it) }
+) : Timer(designID, playerID) {
+    private fun getPlayer() = playerID?.let { Bukkit.getPlayer(it) }
     private val listener = if (isPersonal) null else TimerListener()
     override var running = false
         set(value) {
@@ -32,7 +33,7 @@ class PaperTimer(
 
             if (value) {
                 listener?.activateTimer()
-                player?.player?.showBossBar(bossBar)
+                if (settings.displaySlot == BOSSBAR) getPlayer()?.showBossBar(bossBar)
                 startLogics.forEach { it.invoke() }
             } else {
                 listener?.deactivateTimer()
@@ -42,17 +43,17 @@ class PaperTimer(
 
     override fun disableListener() {
         listener?.disableAll()
-        player?.player?.hideBossBar(bossBar)
+        getPlayer()?.hideBossBar(bossBar)
     }
 
     private fun run() {
         task(false, 0, 1) {
             if (remove) it.cancel()
             if (!visible) return@task
-            if (player?.isOnline == false) return@task
+            if (isPersonal && getPlayer() == null) return@task
             tickLogics.forEach { tick -> tick.invoke(time) }
 
-            val target = if (isPersonal) listOf(player?.player) else {
+            val target = if (isPersonal) listOf(getPlayer()?.player) else {
                 if (running) onlinePlayers else onlinePlayers.filter { player ->
                     val p = TimerManager.getPersonalTimer(player.uniqueId)
                     if (p == null) true else !(p.visible)
@@ -95,6 +96,7 @@ class PaperTimer(
     }
 
     init {
-        if (activate) run()
+        if (activate || !isPersonal) run()
+        visible = activate
     }
 }
