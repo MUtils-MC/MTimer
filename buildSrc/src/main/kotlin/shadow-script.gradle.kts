@@ -8,9 +8,11 @@ tasks {
     shadowJar {
         dependencies {
             include {
-                (it.moduleGroup == "de.miraculixx" && it.moduleName != "challenge-api") || it.moduleGroup == "dev.jorel"
+                (it.moduleGroup == "de.miraculixx" && it.moduleName != "challenge-api")
             }
         }
-        relocate("dev.jorel.commandapi", "de.miraculixx.timer.commandapi")
+    }
+    assemble {
+        dependsOn(shadowJar)
     }
 }

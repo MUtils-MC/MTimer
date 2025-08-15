@@ -27,8 +27,8 @@ dependencies {
 
     // Paper implementation
     implementation(pluginDep("io.papermc.paperweight.userdev", "1.7.1"))
-    implementation(pluginDep("xyz.jpenilla.run-paper", "2.2.4"))
-    implementation(pluginDep("net.minecrell.plugin-yml.bukkit", "0.6.+"))
+    implementation(pluginDep("xyz.jpenilla.run-paper", "2.3.1"))
+    implementation(pluginDep("de.eldoria.plugin-yml.paper", "0.7.+"))
 
     // Project configuration
     implementation(pluginDep("com.github.johnrengelman.shadow", "8.1.1"))
