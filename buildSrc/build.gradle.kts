@@ -22,16 +22,12 @@ dependencies {
     runtimeOnly(pluginDep("org.jetbrains.kotlin.plugin.serialization", kotlinVersion))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.+")
 
-    // Fabric implementation
-    implementation("net.fabricmc:fabric-loom:1.6-SNAPSHOT")
-
     // Paper implementation
-    implementation(pluginDep("io.papermc.paperweight.userdev", "1.7.1"))
+    implementation(pluginDep("io.papermc.paperweight.userdev", "2.0.0-beta.18"))
     implementation(pluginDep("xyz.jpenilla.run-paper", "2.3.1"))
     implementation(pluginDep("de.eldoria.plugin-yml.paper", "0.7.+"))
 
     // Project configuration
-    implementation(pluginDep("com.github.johnrengelman.shadow", "8.1.1"))
     implementation(pluginDep("com.modrinth.minotaur", "2.+"))
     implementation(pluginDep("io.github.dexman545.outlet", "1.6.+"))
 }

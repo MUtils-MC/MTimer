@@ -9,7 +9,6 @@ import de.miraculixx.mcommons.text.cError
 import de.miraculixx.mcommons.text.cmp
 import de.miraculixx.mcommons.text.plus
 import de.miraculixx.mcommons.text.prefix
-import de.miraculixx.mtimer.vanilla.module.rules
 
 object ChallengeSync {
     var challengeAPI: MChallengeAPI? = null

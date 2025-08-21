@@ -1,4 +1,4 @@
-package de.miraculixx.mtimer.vanilla.data
+package de.miraculixx.mtimer.data
 
 import de.miraculixx.mcommons.text.cHighlight
 import de.miraculixx.mcommons.text.cmp

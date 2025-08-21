@@ -1,7 +1,7 @@
 plugins {
     `kotlin-script`
     `paper-script`
-    `shadow-script`
+//    `shadow-script`
 }
 
 repositories {
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":global"))
+//    implementation(project(":global"))
 
     implementation("de.miraculixx:challenge-api:1.5.0")
 }

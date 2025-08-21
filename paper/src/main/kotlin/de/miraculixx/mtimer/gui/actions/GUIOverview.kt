@@ -12,9 +12,8 @@ import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesigns
 import de.miraculixx.mtimer.gui.items.ItemsGoals
 import de.miraculixx.mtimer.gui.items.ItemsRules
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mtimer.vanilla.module.Timer
-import de.miraculixx.mtimer.vanilla.module.TimerManager
+import de.miraculixx.mtimer.data.TimerGUI
+import de.miraculixx.mtimer.module.Timer
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

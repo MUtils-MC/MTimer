@@ -8,10 +8,10 @@ import de.miraculixx.mcommons.extensions.*
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsColorBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorType
-import de.miraculixx.mtimer.vanilla.data.GradientBuilder
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.data.ColorBuilder
+import de.miraculixx.mtimer.data.ColorType
+import de.miraculixx.mtimer.data.GradientBuilder
+import de.miraculixx.mtimer.data.TimerGUI
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

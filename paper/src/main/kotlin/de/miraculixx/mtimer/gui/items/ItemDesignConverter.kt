@@ -10,7 +10,7 @@ import de.miraculixx.mcommons.text.cmp
 import de.miraculixx.mcommons.text.emptyComponent
 import de.miraculixx.mcommons.text.plus
 import de.miraculixx.mtimer.module.PaperTimer
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
+import de.miraculixx.mtimer.data.TimerDesign
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material

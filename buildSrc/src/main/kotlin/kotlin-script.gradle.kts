@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -24,6 +26,6 @@ tasks {
         options.release.set(21)
     }
     compileKotlin {
-        kotlinOptions.jvmTarget = "21"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
     }
 }

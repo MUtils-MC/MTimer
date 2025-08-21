@@ -17,9 +17,9 @@ import de.miraculixx.mtimer.gui.items.ItemsOverview
 import de.miraculixx.mtimer.module.ChallengeSync
 import de.miraculixx.mtimer.module.PaperTimer
 import de.miraculixx.mtimer.module.load
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mtimer.vanilla.module.Timer
-import de.miraculixx.mtimer.vanilla.module.TimerManager
+import de.miraculixx.mtimer.data.TimerGUI
+import de.miraculixx.mtimer.module.Timer
+import de.miraculixx.mtimer.module.TimerManager
 import dev.jorel.commandapi.kotlindsl.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -31,6 +31,7 @@ class TimerCommand {
     private val global = commandTree("timer") {
         withPermission("mutils.command.timer")
         playerExecutor { player, _ -> openSetup(player, false) }
+
         literalArgument("setup") {
             playerExecutor { player, _ -> openSetup(player, false) }
             literalArgument("visibility") {

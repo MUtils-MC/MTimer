@@ -14,9 +14,9 @@ import de.miraculixx.mtimer.module.ChallengeSync
 import de.miraculixx.mtimer.module.GlobalListener
 import de.miraculixx.mtimer.module.TimerAPI
 import de.miraculixx.mtimer.module.load
-import de.miraculixx.mtimer.vanilla.data.Settings
-import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mtimer.vanilla.module.settings
+import de.miraculixx.mtimer.data.Settings
+import de.miraculixx.mtimer.module.TimerManager
+import de.miraculixx.mtimer.module.settings
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import kotlinx.coroutines.CoroutineScope

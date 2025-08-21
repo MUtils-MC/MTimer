@@ -10,7 +10,7 @@ import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.statics.KHeads
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.data.TimerGUI
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.SkullMeta

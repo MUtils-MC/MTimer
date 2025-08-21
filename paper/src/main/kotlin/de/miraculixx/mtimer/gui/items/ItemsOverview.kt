@@ -6,7 +6,7 @@ import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.module.Timer
+import de.miraculixx.mtimer.module.Timer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material

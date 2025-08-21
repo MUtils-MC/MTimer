@@ -1,4 +1,4 @@
-package de.miraculixx.mtimer.vanilla.module
+package de.miraculixx.mtimer.module
 
 import de.miraculixx.mcommons.debug
 import de.miraculixx.mcommons.extensions.saveConfig
@@ -6,7 +6,10 @@ import de.miraculixx.mcommons.text.cmp
 import de.miraculixx.mcommons.text.consoleAudience
 import de.miraculixx.mcommons.text.plus
 import de.miraculixx.mcommons.text.prefix
-import de.miraculixx.mtimer.vanilla.data.*
+import de.miraculixx.mtimer.data.Goals
+import de.miraculixx.mtimer.data.Rules
+import de.miraculixx.mtimer.data.Settings
+import de.miraculixx.mtimer.data.*
 import java.io.File
 import java.util.*
 

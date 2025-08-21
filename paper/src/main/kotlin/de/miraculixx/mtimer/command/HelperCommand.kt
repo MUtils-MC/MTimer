@@ -6,10 +6,10 @@ import de.miraculixx.mtimer.gui.actions.GUIGradientEditor
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsColorBuilder
 import de.miraculixx.mtimer.gui.items.ItemsGradientBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorType
-import de.miraculixx.mtimer.vanilla.data.GradientBuilder
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.data.ColorBuilder
+import de.miraculixx.mtimer.data.ColorType
+import de.miraculixx.mtimer.data.GradientBuilder
+import de.miraculixx.mtimer.data.TimerGUI
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.literalArgument
 import dev.jorel.commandapi.kotlindsl.playerExecutor

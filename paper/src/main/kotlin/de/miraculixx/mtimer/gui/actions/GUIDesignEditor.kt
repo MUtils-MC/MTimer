@@ -17,9 +17,9 @@ import de.miraculixx.mtimer.MTimer
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesignPartEditor
 import de.miraculixx.mtimer.gui.items.ItemsDesigns
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mtimer.vanilla.module.TimerManager
+import de.miraculixx.mtimer.data.TimerDesign
+import de.miraculixx.mtimer.data.TimerGUI
+import de.miraculixx.mtimer.module.TimerManager
 import net.kyori.adventure.bossbar.BossBar
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

@@ -8,8 +8,8 @@ import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.statics.KHeads
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.data.ColorBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorType
+import de.miraculixx.mtimer.data.ColorBuilder
+import de.miraculixx.mtimer.data.ColorType
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Color

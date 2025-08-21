@@ -1,4 +1,4 @@
-package de.miraculixx.mtimer.vanilla.data
+package de.miraculixx.mtimer.data
 
 import net.kyori.adventure.bossbar.BossBar
 import java.util.*

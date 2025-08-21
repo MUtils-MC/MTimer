@@ -10,10 +10,10 @@ import de.miraculixx.mcommons.extensions.soundUp
 import de.miraculixx.mcommons.extensions.toggle
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsOverview
-import de.miraculixx.mtimer.vanilla.data.Punishment
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
-import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mtimer.vanilla.module.rules
+import de.miraculixx.mtimer.data.Punishment
+import de.miraculixx.mtimer.data.TimerGUI
+import de.miraculixx.mtimer.module.TimerManager
+import de.miraculixx.mtimer.module.rules
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 

@@ -6,7 +6,7 @@ import de.miraculixx.kpaper.items.itemStack
 import de.miraculixx.kpaper.items.meta
 import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.module.rules
+import de.miraculixx.mtimer.module.rules
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.util.*

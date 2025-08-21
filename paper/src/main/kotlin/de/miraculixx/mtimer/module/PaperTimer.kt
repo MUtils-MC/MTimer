@@ -4,12 +4,8 @@ import de.miraculixx.kpaper.extensions.bukkit.language
 import de.miraculixx.kpaper.extensions.onlinePlayers
 import de.miraculixx.kpaper.runnables.task
 import de.miraculixx.mcommons.text.msg
-import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot
-import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.BOSSBAR
-import de.miraculixx.mtimer.vanilla.data.TimerDisplaySlot.HOTBAR
-import de.miraculixx.mtimer.vanilla.module.Timer
-import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mtimer.vanilla.module.settings
+import de.miraculixx.mtimer.data.TimerDisplaySlot.BOSSBAR
+import de.miraculixx.mtimer.data.TimerDisplaySlot.HOTBAR
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.title.Title

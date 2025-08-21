@@ -4,10 +4,11 @@ import de.miraculixx.mcommons.debug
 import de.miraculixx.mcommons.extensions.loadConfig
 import de.miraculixx.mcommons.extensions.toUUID
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.data.*
-import de.miraculixx.mtimer.vanilla.module.TimerManager
-import de.miraculixx.mtimer.vanilla.module.goals
-import de.miraculixx.mtimer.vanilla.module.rules
+import de.miraculixx.mtimer.data.Goals
+import de.miraculixx.mtimer.data.Rules
+import de.miraculixx.mtimer.data.TimerData
+import de.miraculixx.mtimer.data.TimerDesign
+import de.miraculixx.mtimer.data.TimerPresets
 import java.io.File
 import kotlin.time.Duration
 

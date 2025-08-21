@@ -1,4 +1,4 @@
-package de.miraculixx.mtimer.vanilla.module
+package de.miraculixx.mtimer.module
 
 import de.miraculixx.timer.api.MTimerAPI
 import java.util.*

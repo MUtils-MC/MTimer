@@ -9,9 +9,9 @@ import de.miraculixx.mcommons.extensions.*
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.gui.buildInventory
 import de.miraculixx.mtimer.gui.items.ItemsDesignEditor
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.data.TimerDesignValue
-import de.miraculixx.mtimer.vanilla.data.TimerGUI
+import de.miraculixx.mtimer.data.TimerDesign
+import de.miraculixx.mtimer.data.TimerDesignValue
+import de.miraculixx.mtimer.data.TimerGUI
 import net.kyori.adventure.text.event.ClickEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

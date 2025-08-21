@@ -9,8 +9,8 @@ import de.miraculixx.kpaper.items.name
 import de.miraculixx.mcommons.statics.KHeads
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.module.PaperTimer
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.module.TimerManager
+import de.miraculixx.mtimer.data.TimerDesign
+import de.miraculixx.mtimer.module.TimerManager
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta

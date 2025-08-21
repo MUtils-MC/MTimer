@@ -10,8 +10,8 @@ import de.miraculixx.mcommons.extensions.round
 import de.miraculixx.mcommons.statics.KHeads
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.module.PaperTimer
-import de.miraculixx.mtimer.vanilla.data.TimerDesign
-import de.miraculixx.mtimer.vanilla.data.TimerDesignValue
+import de.miraculixx.mtimer.data.TimerDesign
+import de.miraculixx.mtimer.data.TimerDesignValue
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material

@@ -6,8 +6,8 @@ import de.miraculixx.kpaper.gui.data.CustomInventory
 import de.miraculixx.kpaper.items.customModel
 import de.miraculixx.mcommons.extensions.*
 import de.miraculixx.mcommons.text.*
-import de.miraculixx.mtimer.vanilla.data.ColorBuilder
-import de.miraculixx.mtimer.vanilla.data.ColorType
+import de.miraculixx.mtimer.data.ColorBuilder
+import de.miraculixx.mtimer.data.ColorType
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor

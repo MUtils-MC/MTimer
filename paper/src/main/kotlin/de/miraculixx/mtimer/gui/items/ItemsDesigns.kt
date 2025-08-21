@@ -3,8 +3,8 @@ package de.miraculixx.mtimer.gui.items
 import de.miraculixx.kpaper.gui.items.ItemProvider
 import de.miraculixx.mcommons.text.*
 import de.miraculixx.mtimer.module.PaperTimer
-import de.miraculixx.mtimer.vanilla.module.Timer
-import de.miraculixx.mtimer.vanilla.module.TimerManager
+import de.miraculixx.mtimer.module.Timer
+import de.miraculixx.mtimer.module.TimerManager
 import org.bukkit.inventory.ItemStack
 import java.util.*
 import kotlin.time.Duration.Companion.days

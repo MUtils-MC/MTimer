@@ -1,10 +1,10 @@
-package de.miraculixx.mtimer.vanilla.module
+package de.miraculixx.mtimer.module
 
 import de.miraculixx.mcommons.serializer.miniMessage
 import de.miraculixx.mcommons.text.cError
 import de.miraculixx.mcommons.text.cmp
-import de.miraculixx.mtimer.vanilla.data.TimerDesignValue
-import de.miraculixx.mtimer.vanilla.data.TimerPresets
+import de.miraculixx.mtimer.data.TimerDesignValue
+import de.miraculixx.mtimer.data.TimerPresets
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
 import java.util.*
