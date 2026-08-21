@@ -18,7 +18,7 @@ import de.miraculixx.mtimer.data.Settings
 import de.miraculixx.mtimer.module.TimerManager
 import de.miraculixx.mtimer.module.settings
 import dev.jorel.commandapi.CommandAPI
-import dev.jorel.commandapi.CommandAPIBukkitConfig
+import dev.jorel.commandapi.CommandAPIPaperConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class MTimer : KPaper() {
     private val configFile = File("${configFolder.path}/settings.json")
 
     override fun load() {
-        CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true).beLenientForMinorVersions(true))
+        CommandAPI.onLoad(CommandAPIPaperConfig(this).silentLogs(true).fallbackToLatestNMS(true))
     }
 
     override fun startup() {
@@ -45,9 +45,11 @@ class MTimer : KPaper() {
         debug = false
 
         CommandAPI.onEnable()
+        // Since 26.1 Mojang uses <year>.<drop>[.<patch>] instead of 1.<major>.<minor>
         val versionSplit = server.minecraftVersion.split('.')
-        majorVersion = versionSplit.getOrNull(1)?.toIntOrNull() ?: 0
-        minorVersion = versionSplit.getOrNull(2)?.toIntOrNull() ?: 0
+        val legacyVersioning = versionSplit.firstOrNull()?.toIntOrNull() == 1
+        majorVersion = if (legacyVersioning) versionSplit.getOrNull(1)?.toIntOrNull() ?: 0 else Int.MAX_VALUE
+        minorVersion = if (legacyVersioning) versionSplit.getOrNull(2)?.toIntOrNull() ?: 0 else 0
 
         if (!configFolder.exists()) configFolder.mkdirs()
         settings = configFile.loadConfig(Settings())

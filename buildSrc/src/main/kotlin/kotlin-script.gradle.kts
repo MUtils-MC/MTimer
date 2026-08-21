@@ -10,22 +10,22 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.6.+")
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.8.+")
+    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.11.+")
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.11.+")
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
 tasks {
     compileJava {
         options.encoding = "UTF-8"
-        options.release.set(21)
+        options.release.set(25)
     }
     compileKotlin {
-        compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_25)
     }
 }

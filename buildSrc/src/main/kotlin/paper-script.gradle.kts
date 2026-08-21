@@ -15,31 +15,29 @@ val gameVersion by properties
 val foliaSupport = properties["foliaSupport"] as String == "true"
 val projectName = properties["projectName"] as String
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
-
 repositories {
     mavenCentral()
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("26.1.2.build.+")
 
     // Kotlin libraries
     library(kotlin("stdlib"))
-    library("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.+")
-    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.+")
+    library("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.+")
+    library("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.+")
 
     // Utility libraries (optional)
     val useBrigadier = properties["useBrigadier"] as String == "true"
     if (useBrigadier) {
-        implementation(library("dev.jorel:commandapi-bukkit-shade-mojang-mapped:10.1.2")!!)
-        implementation(library("dev.jorel:commandapi-bukkit-kotlin:10.1.2")!!)
+        implementation(library("dev.jorel:commandapi-paper-shade:12.0.0")!!)
+        implementation(library("dev.jorel:commandapi-kotlin-paper:12.0.0")!!)
     }
 
     paperLibrary("de.miraculixx:kpaper-light:1.2.2")
     paperLibrary("de.miraculixx:mc-commons:1.0.1")
-    paperLibrary("de.miraculixx:timer-api:1.1.3")
+    paperLibrary("de.miraculixx:timer-api:1.2.0")
     //implementation("de.miraculixx:mbridge:1.0.0")
 }
 
@@ -57,7 +55,7 @@ paper {
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
 
     serverDependencies {
-        register("mchallenge") {
+        register("MChallenge") {
             required = false
             joinClasspath = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
