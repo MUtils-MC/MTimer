@@ -24,6 +24,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.*
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
@@ -33,6 +34,7 @@ class TimerListener {
         onDamage.unregister()
         onDie.unregister()
         onQuit.unregister()
+        onJoin.unregister()
         onBreak.unregister()
         onHunger.unregister()
         onPlace.unregister()
@@ -44,6 +46,7 @@ class TimerListener {
 
     fun activateTimer() {
         onQuit.register()
+        onJoin.register()
         onDie.register()
         onEntityDeath.register()
 
@@ -60,6 +63,7 @@ class TimerListener {
 
     fun deactivateTimer() {
         onQuit.unregister()
+        onJoin.unregister()
         onDie.unregister()
         onEntityDeath.unregister()
 
@@ -130,17 +134,17 @@ class TimerListener {
             }
 
             broadcast(cmp + dash)
-        } else {
-            if (rules.specOnDeath) {
-                val loc = it.entity.location
-                val immediateRespawn = loc.world?.getGameRuleValue(GameRule.DO_IMMEDIATE_RESPAWN)
-                loc.world?.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true)
-                task(true, 2, 2, 2, endCallback = {
-                    loc.world?.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, immediateRespawn ?: false)
-                }) { _ ->
-                    it.entity.gameMode = GameMode.SPECTATOR
-                    it.entity.teleport(loc)
-                }
+        }
+
+        if (rules.specOnDeath) {
+            val loc = it.entity.location
+            val immediateRespawn = loc.world?.getGameRuleValue(GameRule.DO_IMMEDIATE_RESPAWN)
+            loc.world?.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true)
+            task(true, 2, 2, 2, endCallback = {
+                loc.world?.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, immediateRespawn ?: false)
+            }) { _ ->
+                it.entity.gameMode = GameMode.SPECTATOR
+                it.entity.teleport(loc)
             }
         }
 
@@ -164,6 +168,12 @@ class TimerListener {
             majorVersion >= 19 && type == EntityType.WARDEN -> if (goals.warden) finished(entity, TimerManager.globalTimer)
             else -> Unit
         }
+    }
+
+    private val onJoin = listen<PlayerJoinEvent>(register = false) {
+        if (!rules.specOnJoin) return@listen
+        if (!TimerManager.globalTimer.running) return@listen
+        it.player.gameMode = GameMode.SPECTATOR
     }
 
     private val onQuit = listen<PlayerQuitEvent>(register = false) {
